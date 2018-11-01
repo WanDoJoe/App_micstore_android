@@ -20,6 +20,7 @@ public class GoodsBean {
     private float sellingPrice;
     private String goodsCode;
     private String goodsType;
+    private String saleNum;//折扣
 
     public String getGoodsType() {
         return goodsType;
