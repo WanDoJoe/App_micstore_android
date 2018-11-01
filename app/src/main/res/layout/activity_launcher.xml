@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_marginLeft="20dp"
+    android:layout_marginRight="20dp"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:id="@+id/header_view_rl"
+        android:layout_marginTop="8dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <RelativeLayout
+            android:id="@+id/header_logo_top"
+            android:layout_width="match_parent"
+            android:layout_height="36dp">
+            <TextView
+                android:id="@+id/header_logo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="18sp"
+                android:text="Micote Store"/>
+            <ImageButton
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:background="@drawable/setting_bn"/>
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_below="@+id/header_logo_top"
+            android:orientation="horizontal"
+            android:background="@drawable/search_bg"
+            android:layout_marginTop="16dp"
+            android:layout_width="match_parent"
+            android:layout_height="48dp">
+            <ImageView
+                android:id="@+id/search_img"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginLeft="2dp"
+                android:padding="2dp"
+                android:layout_gravity="center"
+                android:src="@drawable/camera_bn"/>
+            <EditText
+                android:id="@+id/search_ed"
+                android:layout_gravity="center"
+                android:layout_width="200dp"
+                android:layout_height="46dp" />
+            <Button
+                android:id="@+id/search_bn"
+                android:text="搜索"
+                android:layout_marginLeft="2dp"
+                android:textSize="14sp"
+                android:layout_width="64dp"
+                android:layout_height="48dp" />
+        </LinearLayout>
+
+    </RelativeLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/launcher_recyclerview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/header_view_rl"
+        android:layout_marginTop="4dp"
+        />
+
+
+</RelativeLayout>
