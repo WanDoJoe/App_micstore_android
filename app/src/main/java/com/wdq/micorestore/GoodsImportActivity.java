@@ -14,7 +14,9 @@ import android.widget.Toast;
 import com.uuzuche.lib_zxing.activity.CaptureActivity;
 import com.uuzuche.lib_zxing.activity.CodeUtils;
 import com.wdq.micorestore.DAO.GoodsDAOUtils;
+import com.wdq.micorestore.DAO.SizeClornumbDAOUtils;
 import com.wdq.micorestore.bean.GoodsBean;
+import com.wdq.micorestore.bean.SizeClorNumbBean;
 import com.wdq.micorestore.common.Common;
 import com.wdq.micorestore.utils.DateUtil;
 
@@ -31,6 +33,7 @@ public class GoodsImportActivity extends Activity {
     EditText goods_name,goods_costprice,goods_sellprice,goods_info,goods_class;
 
     GoodsDAOUtils goodsDAOUtils;
+    SizeClornumbDAOUtils sizeClornumbDAOUtils;
 
     String goodsCodeStr="";
     @Override
@@ -51,6 +54,7 @@ public class GoodsImportActivity extends Activity {
 
     private void initView() {
         goodsDAOUtils=new GoodsDAOUtils(this);
+        sizeClornumbDAOUtils=new SizeClornumbDAOUtils(this);
 
         back_bn=findViewById(R.id.goodsimport_back_bn);
         camera_bn=findViewById(R.id.goodsimport_camera_bn);
@@ -88,6 +92,16 @@ public class GoodsImportActivity extends Activity {
                 bean.setGoodsCode(goodsCodeStr);
                 bean.setCostPrice(Float.valueOf(goods_costprice.getText().toString()));
                 bean.setCreatDate(DateUtil.geDate(goods_date.getText().toString()));
+
+                SizeClorNumbBean sizeClorNumbBean=new SizeClorNumbBean();
+                sizeClorNumbBean.setGoodsCode(goodsCodeStr);
+                sizeClorNumbBean.setType1_name("尺码");
+                sizeClorNumbBean.setType1_value("x");
+                sizeClorNumbBean.setType2_name("颜色");
+                sizeClorNumbBean.setType2_value("红色");
+                sizeClorNumbBean.setType3_name("库存");
+                sizeClorNumbBean.setType3_value("2");
+
                 if(goods_sellprice.getText().toString().trim().equals("")){
                     bean.setSellingPrice(Float.valueOf(goods_costprice.getText().toString()));
                 }else {
@@ -97,6 +111,7 @@ public class GoodsImportActivity extends Activity {
                     Toast.makeText(mContext, "编码为空！", Toast.LENGTH_SHORT).show();
                 }else {
                     if (goodsDAOUtils.insertGoods(bean)) {
+                        sizeClornumbDAOUtils.insertGoods(sizeClorNumbBean);
                         Toast.makeText(mContext, "添加成功", Toast.LENGTH_SHORT).show();
                     } else {
                         Toast.makeText(mContext, "失败！！！", Toast.LENGTH_SHORT).show();

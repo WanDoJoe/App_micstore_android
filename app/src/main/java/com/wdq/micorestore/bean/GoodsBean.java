@@ -38,9 +38,10 @@ public class GoodsBean {
         this.goodsCode = goodsCode;
     }
 
-    @Generated(hash = 416075410)
+    @Generated(hash = 1351725843)
     public GoodsBean(long id, String name, Date creatDate, float costPrice,
-            float sellingPrice, String goodsCode, String goodsType) {
+            float sellingPrice, String goodsCode, String goodsType,
+            String saleNum) {
         this.id = id;
         this.name = name;
         this.creatDate = creatDate;
@@ -48,6 +49,7 @@ public class GoodsBean {
         this.sellingPrice = sellingPrice;
         this.goodsCode = goodsCode;
         this.goodsType = goodsType;
+        this.saleNum = saleNum;
     }
 
     @Generated(hash = 1806305570)
@@ -92,5 +94,13 @@ public class GoodsBean {
 
     public void setSellingPrice(float sellingPrice) {
         this.sellingPrice = sellingPrice;
+    }
+
+    public String getSaleNum() {
+        return this.saleNum;
+    }
+
+    public void setSaleNum(String saleNum) {
+        this.saleNum = saleNum;
     }
 }

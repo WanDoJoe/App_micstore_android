@@ -3,8 +3,8 @@ package com.wdq.micorestore.DAO;
 import android.content.Context;
 import android.util.Log;
 
-import com.wdq.micorestore.bean.GoodsBean;
-import com.wdq.micorestore.bean.GoodsBeanDao;
+import com.wdq.micorestore.bean.SizeClorNumbBean;
+import com.wdq.micorestore.bean.SizeClorNumbBeanDao;
 
 import org.greenrobot.greendao.query.QueryBuilder;
 
@@ -14,11 +14,11 @@ import java.util.List;
  * Created by sinosoft_wan on 2018/11/1.
  */
 
-public class GoodsDAOUtils {
-    private static final String TAG = GoodsDAOUtils.class.getSimpleName();
+public class SizeClornumbDAOUtils {
+    private static final String TAG = SizeClornumbDAOUtils.class.getSimpleName();
     private DaoManager mManager;
 
-    public GoodsDAOUtils(Context context){
+    public SizeClornumbDAOUtils(Context context){
         mManager = DaoManager.getInstance();
         mManager.init(context);
     }
@@ -28,9 +28,10 @@ public class GoodsDAOUtils {
      * @param goodsBean
      * @return
      */
-    public boolean insertGoods(GoodsBean goodsBean){
+    public boolean insertGoods(SizeClorNumbBean goodsBean){
         boolean flag = false;
-        flag = mManager.getDaoSession().getGoodsBeanDao().insert(goodsBean)== -1 ? false : true;//.getMeiziDao().insert(meizi) == -1 ? false : true;
+        flag = mManager.getDaoSession().getSizeClorNumbBeanDao().insert(goodsBean)
+                == -1 ? false : true;//.getMeiziDao().insert(meizi) == -1 ? false : true;
         Log.i(TAG, "insert goodsBean :" + flag + "-->" + goodsBean.toString());
         return flag;
     }
@@ -40,13 +41,13 @@ public class GoodsDAOUtils {
      * @param meiziList
      * @return
      */
-    public boolean insertMultMeizi(final List<GoodsBean> meiziList) {
+    public boolean insertMultMeizi(final List<SizeClorNumbBean> meiziList) {
         boolean flag = false;
         try {
             mManager.getDaoSession().runInTx(new Runnable() {
                 @Override
                 public void run() {
-                    for (GoodsBean meizi : meiziList) {
+                    for (SizeClorNumbBean meizi : meiziList) {
                         mManager.getDaoSession().insertOrReplace(meizi);
                     }
                 }
@@ -63,7 +64,7 @@ public class GoodsDAOUtils {
      * @param meizi
      * @return
      */
-    public boolean updateMeizi(GoodsBean meizi){
+    public boolean updateMeizi(SizeClorNumbBean meizi){
         boolean flag = false;
         try {
             mManager.getDaoSession().update(meizi);
@@ -79,7 +80,7 @@ public class GoodsDAOUtils {
      * @param meizi
      * @return
      */
-    public boolean deleteMeizi(GoodsBean meizi){
+    public boolean deleteMeizi(SizeClorNumbBean meizi){
         boolean flag = false;
         try {
             //按照id删除
@@ -99,7 +100,7 @@ public class GoodsDAOUtils {
         boolean flag = false;
         try {
             //按照id删除
-            mManager.getDaoSession().deleteAll(GoodsBean.class);
+            mManager.getDaoSession().deleteAll(SizeClorNumbBean.class);
             flag = true;
         }catch (Exception e){
             e.printStackTrace();
@@ -111,8 +112,8 @@ public class GoodsDAOUtils {
      * 查询所有记录
      * @return
      */
-    public List<GoodsBean> queryAllMeizi(){
-        return mManager.getDaoSession().loadAll(GoodsBean.class);
+    public List<SizeClorNumbBean> queryAllMeizi(){
+        return mManager.getDaoSession().loadAll(SizeClorNumbBean.class);
     }
 
     /**
@@ -120,15 +121,15 @@ public class GoodsDAOUtils {
      * @param key
      * @return
      */
-    public GoodsBean queryMeiziById(long key){
-        return mManager.getDaoSession().load(GoodsBean.class, key);
+    public SizeClorNumbBean queryMeiziById(long key){
+        return mManager.getDaoSession().load(SizeClorNumbBean.class, key);
     }
 
     /**
      * 使用native sql进行查询操作
      */
-    public List<GoodsBean> queryMeiziByNativeSql(String sql, String[] conditions){
-        return mManager.getDaoSession().queryRaw(GoodsBean.class, sql, conditions);
+    public List<SizeClorNumbBean> queryMeiziByNativeSql(String sql, String[] conditions){
+        return mManager.getDaoSession().queryRaw(SizeClorNumbBean.class, sql, conditions);
     }
 
 
@@ -136,8 +137,8 @@ public class GoodsDAOUtils {
      * 使用queryBuilder进行查询
      * @return
      */
-    public List<GoodsBean> queryMeiziByQueryBuilder(long id){
-        QueryBuilder<GoodsBean> queryBuilder = mManager.getDaoSession().queryBuilder(GoodsBean.class);
-        return queryBuilder.where(GoodsBeanDao.Properties.Id.eq(id)).list();
+    public List<SizeClorNumbBean> queryMeiziByQueryBuilder(long id){
+        QueryBuilder<SizeClorNumbBean> queryBuilder = mManager.getDaoSession().queryBuilder(SizeClorNumbBean.class);
+        return queryBuilder.where(SizeClorNumbBeanDao.Properties.Id.eq(id)).list();
     }
 }
