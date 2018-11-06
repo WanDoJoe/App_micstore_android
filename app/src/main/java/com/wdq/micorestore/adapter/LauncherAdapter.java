@@ -9,6 +9,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.wdq.micorestore.R;
+import com.wdq.micorestore.bean.LauncherItemBean;
 
 import java.util.List;
 
@@ -19,10 +20,10 @@ import java.util.List;
 
 public class LauncherAdapter extends RecyclerView.Adapter<LauncherAdapter.MyViewHolder> {
     private Context context;
-    private List<String> mList;
+    private List<LauncherItemBean> mList;
     private OnItemClickListener mItemClickListener;
 
-    public LauncherAdapter(Context context,List<String> mList){
+    public LauncherAdapter(Context context,List<LauncherItemBean> mList){
         this.context=context;
         this.mList=mList;
     }
@@ -49,7 +50,7 @@ public class LauncherAdapter extends RecyclerView.Adapter<LauncherAdapter.MyView
                 mItemClickListener.onItemClick(v,position);
             }
         });
-            holder.tv.setText(mList.get(position));
+            holder.tv.setText(mList.get(position).getName());
     }
 
 

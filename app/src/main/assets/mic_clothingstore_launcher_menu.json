@@ -1,0 +1,32 @@
+{
+  "menu":[
+    {
+      "name":"收银",
+      "url":"",
+      "img":"index_sale.png",
+      "activity":"sale",
+      "isAble":"true"
+    },
+    {
+      "name":"商品管理",
+      "url":"",
+      "img":"index_goods",
+      "activity":"goods",
+      "isAble":"true"
+    },
+    {
+      "name":"营收管理",
+      "url":"",
+      "img":"inde_account.png",
+      "activity":"account",
+      "isAble":"true"
+    },
+    {
+      "name":"更多",
+      "url":"",
+      "img":"",
+      "activity":"other",
+      "isAble":"false"
+    }
+  ]
+}

@@ -15,17 +15,25 @@ import android.widget.Toast;
 import com.uuzuche.lib_zxing.activity.CaptureActivity;
 import com.uuzuche.lib_zxing.activity.CodeUtils;
 import com.wdq.micorestore.adapter.LauncherAdapter;
+import com.wdq.micorestore.bean.LauncherItemBean;
 import com.wdq.micorestore.common.Common;
+import com.wdq.micorestore.utils.AssetsUtils;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by sinosoft_wan on 2018/9/21.
  */
 
 public class Launcher extends BaseActivity {
-    List<String> mlist;
+    List<LauncherItemBean> mlist;
 
     RecyclerView recyclerView;
     ImageView search_img;
@@ -34,29 +42,23 @@ public class Launcher extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_launcher);
 
+        initMenu();
         initView();
         initdata();
         onListener();
+
     }
+
+    private void initdata() {
+
+    }
+
     private void initView() {
         recyclerView=findViewById(R.id.launcher_recyclerview);
         search_img=findViewById(R.id.search_img);
         recyclerView.setLayoutManager(new GridLayoutManager(Launcher.this,2));
     }
-    private void initdata() {
-        mlist=new ArrayList<>();
-        for (int i =0;i<3;i++){
-            if(i==0) {
-                mlist.add("sale");
-            }else if(i==1){
-                mlist.add("login");
-            }else if(i==2){
-                mlist.add("goods");
-            }
-        }
-        mlist.add("other");
 
-    }
 
     private void onListener() {
         LauncherAdapter adapter=new LauncherAdapter(this,mlist);
@@ -66,7 +68,7 @@ public class Launcher extends BaseActivity {
             public void onItemClick(View view, int position) {
 //                Toast.makeText(Launcher.this,mlist.get(position),Toast.LENGTH_SHORT).show();
                 try {
-                    Intent intent = new Intent(Launcher.this, Common.launcherItam().get(mlist.get(position)));
+                    Intent intent = new Intent(Launcher.this, launcherItam().get(mlist.get(position).getActivity()));
                     startActivity(intent);
                 }catch (Exception e){
                     if(e.getLocalizedMessage().contains("java.lang.String java.lang.Class.getName()")){
@@ -110,5 +112,36 @@ public class Launcher extends BaseActivity {
                 }
             }
         }
+    }
+
+
+
+    private void initMenu() {
+        try {
+            String jsonStr= AssetsUtils.getJson(this,"mic_clothingstore_launcher_menu.json");
+            mlist=new ArrayList<>();
+            JSONObject jsonObject=new JSONObject(jsonStr);
+            JSONArray jsonArray=jsonObject.getJSONArray("menu");
+
+            for (int i=0;i<jsonArray.length();i++){
+                JSONObject object=jsonArray.getJSONObject(i);
+                LauncherItemBean itemBean=new LauncherItemBean();
+                itemBean.setName(object.optString("name"));
+                itemBean.setActivity(object.optString("activity"));
+                itemBean.setIsAble(object.optString("isAble"));
+                itemBean.setImg(object.optString("img"));
+                itemBean.setUrl(object.optString("url"));
+                mlist.add(itemBean);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+    public static Map<String ,Class> launcherItam(){
+        Map<String,Class> map=new HashMap<>();
+        map.put("sale", SaleActivity.class);
+        map.put("goods", GoodsImportActivity.class);
+        map.put("account", AccountActivity.class);
+        return map;
     }
 }
