@@ -17,6 +17,7 @@ import android.widget.Toast;
 import com.wdq.micorestore.common.Common;
 import com.wdq.micorestore.httpapi.HttpApi;
 import com.wdq.micorestore.httpapi.MyDefaultObserver;
+import com.wdq.micorestore.order.OrderMainActivity;
 import com.wdq.micorestore.utils.AesEncodeUtil;
 import com.wdq.micorestore.utils.CheckPermissionUtils;
 import com.wdq.micorestore.utils.MD5Utils;
@@ -85,7 +86,8 @@ public class LoginActivity extends Activity implements EasyPermissions.Permissio
                                         JSONObject jsonObject=new JSONObject(o);
                                         if(jsonObject.getString("result").equals("success")) {
                                             Log.e("login",jsonObject.toString());
-                                            Intent intent = new Intent(LoginActivity.this, Launcher.class);
+//                                            Intent intent = new Intent(LoginActivity.this, Launcher.class);
+                                            Intent intent = new Intent(LoginActivity.this, OrderMainActivity.class);
                                             startActivity(intent);
                                             finish();
                                         }else{

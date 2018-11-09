@@ -39,7 +39,11 @@
             android:name=".SaleActivity"
             android:label="@string/title_activity_sale"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".AccountActivity"></activity>
+        <activity android:name=".AccountActivity" />
+        <activity android:name=".order.OrderMainActivity" />
+        <activity android:name=".InitSystemActivity" />
+        <activity android:name=".order.OredrReckoningActivity" />
+        <activity android:name=".order.OrderSettingActivity"></activity>
     </application>
 
 </manifest>

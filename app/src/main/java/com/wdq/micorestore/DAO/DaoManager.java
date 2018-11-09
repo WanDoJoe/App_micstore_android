@@ -46,7 +46,13 @@ public class DaoManager {
         }
         return sDaoMaster;
     }
-
+    public DaoMaster getDaoMaster(String DB_NAME){
+        if(sDaoMaster == null) {
+            DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(context, DB_NAME, null);
+            sDaoMaster = new DaoMaster(helper.getWritableDatabase());
+        }
+        return sDaoMaster;
+    }
     /**
      * 完成对数据库的添加、删除、修改、查询操作，仅仅是一个接口
      * @return
