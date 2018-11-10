@@ -1,6 +1,7 @@
 package com.wdq.micorestore.order;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
@@ -75,7 +76,7 @@ public class OrderMainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_order_main);
         initDate();
         initView();
-        setDate();
+//        setDate();
 
         setView();
     }
@@ -122,7 +123,13 @@ public class OrderMainActivity extends AppCompatActivity {
         orderSuperMenuAdapter.notifyDataSetChanged();
 
 
-
+        order_header_setting_bn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(mContext,OrderSettingActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
 

@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -69,7 +70,7 @@ public class OrderSubMenuAdapter extends RecyclerView.Adapter<OrderSubMenuAdapte
         TextView name;
         TextView price;
         TextView salePrice;
-        RelativeLayout linearLayout;
+        LinearLayout linearLayout;
         public MyViewHolder(View itemView) {
             super(itemView);
             name=itemView.findViewById(R.id.order_submenu_listview_item_name_tv);

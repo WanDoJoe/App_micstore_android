@@ -71,7 +71,9 @@ public class LoginActivity extends Activity implements EasyPermissions.Permissio
 
                 if(Common.isNotNetWork){
                     if(username_ET.getText().toString().equals("admin")&&password_ET.getText().toString().equals("admin")) {
-                        Intent intent = new Intent(LoginActivity.this, Launcher.class);
+//                        Intent intent = new Intent(LoginActivity.this, Launcher.class);
+                        Intent intent = new Intent(LoginActivity.this, OrderMainActivity.class);
+
                         startActivity(intent);
                         finish();
                     }

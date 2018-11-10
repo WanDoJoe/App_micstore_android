@@ -13,7 +13,7 @@
         android:layout_height="match_parent">
     <RelativeLayout
         android:id="@+id/order_header_view_rl"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="4dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <RelativeLayout
@@ -27,6 +27,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="18sp"
+                android:layout_centerVertical="true"
                 android:text="Micote Store"/>
             <ImageButton
                 android:id="@+id/order_header_setting_bn"
@@ -40,7 +41,7 @@
             android:layout_below="@+id/order_header_logo_top"
             android:orientation="horizontal"
             android:background="@drawable/search_bg"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="8dp"
             android:layout_width="match_parent"
             android:layout_height="48dp">
             <Spinner
@@ -112,7 +113,7 @@
 </RelativeLayout>
     <RelativeLayout
         android:layout_width="match_parent"
-        android:background="#c5c5c5"
+        android:background="#54c5c5c5"
         android:layout_alignParentBottom="true"
         android:layout_height="50dp">
         <Button
@@ -133,6 +134,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="总价"
+                android:textColor="#33ff99"
                 android:textSize="20sp"
                 />
             <TextView

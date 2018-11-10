@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_marginBottom="1dp"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/order_menu_setting_sub_dialog_supername"
+            android:layout_width="wrap_content"
+            android:text="菜单类型"
+            android:layout_height="wrap_content"
+            android:visibility="gone"/>
+        <TextView
+            android:id="@+id/order_menu_setting_sub_dialog_date"
+            android:layout_width="wrap_content"
+            android:layout_alignParentRight="true"
+            android:text="0000-00-00 00:00"
+            android:layout_height="wrap_content" />
+    </RelativeLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="48dp">
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="2"
+            android:text="名称："
+            android:gravity="center_vertical"
+            android:layout_height="match_parent" />
+        <EditText
+
+            android:id="@+id/order_menu_setting_sub_dialog_name"
+            android:layout_width="0dp"
+            android:layout_weight="8"
+            android:layout_height="match_parent" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="48dp">
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="2"
+            android:text="单价："
+            android:gravity="center_vertical"
+            android:layout_height="match_parent" />
+        <EditText
+
+            android:id="@+id/order_menu_setting_sub_dialog_price"
+            android:layout_width="0dp"
+            android:inputType="numberDecimal"
+            android:layout_weight="8"
+            android:layout_height="match_parent" />
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="48dp">
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="2"
+            android:text="打折："
+            android:gravity="center_vertical"
+            android:layout_height="match_parent" />
+        <EditText
+
+            android:id="@+id/order_menu_setting_sub_dialog_price_sale"
+            android:layout_width="0dp"
+            android:layout_weight="8"
+            android:hint="打8.88折输入8.88"
+            android:inputType="numberDecimal"
+            android:layout_height="match_parent" />
+        <Button
+            android:id="@+id/order_menu_setting_sub_dialog_price_sale_reset_bn"
+            android:layout_width="0dp"
+            android:layout_weight="3"
+            android:layout_height="match_parent"
+            android:text="恢复原价"/>
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="48dp">
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="2"
+            android:text="搜索简称："
+            android:gravity="center_vertical"
+            android:layout_height="match_parent" />
+        <EditText
+            android:id="@+id/order_menu_setting_sub_dialog_pinyin"
+            android:layout_width="0dp"
+            android:layout_weight="8"
+            android:hint="如锅底：gd"
+            android:layout_height="match_parent" />
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="2"
+            android:text="简介："
+            android:gravity="center_vertical"
+            android:layout_height="match_parent" />
+        <EditText
+            android:id="@+id/order_menu_setting_sub_dialog_introduction"
+            android:layout_width="0dp"
+            android:layout_weight="8"
+            android:lines="4"
+            android:layout_height="match_parent" />
+
+    </LinearLayout>
+</LinearLayout>
