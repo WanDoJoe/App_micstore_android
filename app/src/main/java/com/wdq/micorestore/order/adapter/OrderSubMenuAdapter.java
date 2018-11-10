@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.wdq.micorestore.R;
 import com.wdq.micorestore.order.bean.OrderSubMenu;
+import com.wdq.micorestore.utils.VibrateHelp;
 
 import java.util.List;
 
@@ -44,6 +45,7 @@ public class OrderSubMenuAdapter extends RecyclerView.Adapter<OrderSubMenuAdapte
         holder.linearLayout.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
+                VibrateHelp.vSimple(context);
                 onItemLongTouchLinstener.onLongTouch(v,position);
                 return true;
             }

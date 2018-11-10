@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
@@ -27,6 +28,7 @@ import com.wdq.micorestore.order.dao.OrderSubMenuDaoUtils;
 import com.wdq.micorestore.order.dao.OrderSuperMenuDaoUtils;
 import com.wdq.micorestore.utils.DateUtil;
 import com.wdq.micorestore.utils.StringUtils;
+import com.wdq.micorestore.utils.VibrateHelp;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -44,7 +46,7 @@ public class OrderMenuManageActivity extends AppCompatActivity {
     private EditText subMenu_name_dialog_ed,subMenu_price_dialog_ed,subMenu_sale_dialog_ed,
             subMenu_piinyin_dialog_ed,subMenu_introduction_dialog_ed;
     private TextView subMenu_date_dialog_tv,subMenu_supername_dialog_tv;
-    private Button subMenu_sale_dialog_reset_bn;
+    private Button subMenu_sale_dialog_reset_bn,subMenu_setting_dialog_delete_bn;
 
     private OrderSuperMenuDaoUtils orderSuperMenuDaoUtils;
     private OrderSubMenuDaoUtils orderSubMenuDaoUtils;
@@ -54,6 +56,9 @@ public class OrderMenuManageActivity extends AppCompatActivity {
 
     private String superMenu_sp_select_name="";
     private Long superMenuId;
+
+    OrderSubMenuAdapter SubMenuAdapter=null;
+    OrderSuperMenuAdapter superMenuAdapter=null;
 
 
 
@@ -76,7 +81,9 @@ public class OrderMenuManageActivity extends AppCompatActivity {
         orderSuperMenuDaoUtils=new OrderSuperMenuDaoUtils(mContext);
         orderSubMenuDaoUtils=new OrderSubMenuDaoUtils(mContext);
         superMenuqueryAll();
-        subMenuqueryAll(orderSuperMenuList.get(0).getId());
+        if(orderSuperMenuList.size()>0) {
+            subMenuqueryAll(orderSuperMenuList.get(0).getId());
+        }
     }
 
 
@@ -119,7 +126,29 @@ public class OrderMenuManageActivity extends AppCompatActivity {
                 orderSubMenuList.clear();
                 superMenuId=orderSuperMenuList.get(position).getId();
                 subMenuqueryAll(superMenuId);
-                SubMenuAdapter.notifyDataSetChanged();
+                if(SubMenuAdapter!=null) {
+                    SubMenuAdapter.notifyDataSetChanged();
+                }
+            }
+        });
+        superMenu_sp.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
+                VibrateHelp.vSimple(mContext);
+                new AlertDialog.Builder(mContext)
+                        .setTitle("提示")
+                        .setMessage("删除："+orderSuperMenuList.get(position).getName())
+                        .setNeutralButton("确定", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                orderSuperMenuDaoUtils.deleteByOne(orderSuperMenuList.get(position));
+                                superMenuAdapter.notifyDataSetChanged();
+                            }
+                        })
+                        .setPositiveButton("取消",null)
+                        .show();
+
+                return true;
             }
         });
 
@@ -177,10 +206,11 @@ public class OrderMenuManageActivity extends AppCompatActivity {
 
     }
 
-    private void addSubMenuDialog(OrderSubMenu orderSubMenu){
+    private void addSubMenuDialog(final OrderSubMenu orderSubMenu){
         subMenuAdd_dialog_view=LayoutInflater.from(mContext).inflate(R.layout.order_menu_setting_sub_dialog,null);
         subMenu_date_dialog_tv=subMenuAdd_dialog_view.findViewById(R.id.order_menu_setting_sub_dialog_date);
         subMenu_supername_dialog_tv=subMenuAdd_dialog_view.findViewById(R.id.order_menu_setting_sub_dialog_supername);
+        subMenu_setting_dialog_delete_bn=subMenuAdd_dialog_view.findViewById(R.id.order_menu_setting_sub_dialog_delete_bn);
 
         subMenu_name_dialog_ed=subMenuAdd_dialog_view.findViewById(R.id.order_menu_setting_sub_dialog_name);
         subMenu_price_dialog_ed=subMenuAdd_dialog_view.findViewById(R.id.order_menu_setting_sub_dialog_price);
@@ -191,6 +221,7 @@ public class OrderMenuManageActivity extends AppCompatActivity {
 
         final String date = DateUtil.geDate();
         if(orderSubMenu!=null){
+            subMenu_setting_dialog_delete_bn.setVisibility(View.VISIBLE);
             subMenu_date_dialog_tv.setText(orderSubMenu.getCreateYear());
             subMenu_name_dialog_ed.setText(orderSubMenu.getName());
             subMenu_price_dialog_ed.setText(Float.toString(orderSubMenu.getPrice()));
@@ -198,7 +229,7 @@ public class OrderMenuManageActivity extends AppCompatActivity {
             subMenu_piinyin_dialog_ed.setText(orderSubMenu.getPinyingId());
             subMenu_introduction_dialog_ed.setText(orderSubMenu.getIntroduction());
         }else {
-
+            subMenu_setting_dialog_delete_bn.setVisibility(View.GONE);
             subMenu_date_dialog_tv.setText(date);
         }
         subMenuAdd_dialog= new AlertDialog.Builder(mContext)
@@ -215,43 +246,58 @@ public class OrderMenuManageActivity extends AppCompatActivity {
                             Toast.makeText(mContext,"请填写菜品单价",Toast.LENGTH_SHORT).show();
                             mydismissDialog(dialog,false);
                         }else{
-                            OrderSubMenu orderSubMenu=new OrderSubMenu();
-                            orderSubMenu.setName(subMenu_name_dialog_ed.getText().toString());
-                            orderSubMenu.setCreateYear(date);
-                            orderSubMenu.setPrice(Float.valueOf(subMenu_price_dialog_ed.getText().toString()));
-                            orderSubMenu.setIsAble("1");
-                            orderSubMenu.setSuperMenuId(superMenuId);
-                            orderSubMenu.setPinyingId(subMenu_piinyin_dialog_ed.getText().toString());
-                            orderSubMenu.setIntroduction(subMenu_introduction_dialog_ed.getText().toString());
-                             if(subMenu_sale_dialog_ed.getText().toString().trim().equals("")){
-                                //如果空默认是1
-                                orderSubMenu.setPrice(1);
-                                if (orderSubMenuDaoUtils.insertByOne(orderSubMenu)) {
-                                    subMenuqueryAll(superMenuId);
-                                    mydismissDialog(dialog, true);
-                                }else{
-                                    Toast.makeText(mContext,"添加菜品失败！",Toast.LENGTH_SHORT).show();
-                                    mydismissDialog(dialog,false);
+                            if(orderSubMenu!=null){
+                                OrderSubMenu SubMenu = new OrderSubMenu();
+                                SubMenu.setName(subMenu_name_dialog_ed.getText().toString());
+                                SubMenu.setCreateYear(date);
+                                SubMenu.setPrice(Float.valueOf(subMenu_price_dialog_ed.getText().toString()));
+                                SubMenu.setIsAble("1");
+                                SubMenu.setSuperMenuId(superMenuId);
+                                SubMenu.setPinyingId(subMenu_piinyin_dialog_ed.getText().toString());
+                                SubMenu.setIntroduction(subMenu_introduction_dialog_ed.getText().toString());
+                                SubMenu.setPrice(Float.valueOf(subMenu_sale_dialog_ed.getText().toString()) / 10);
+                                if(orderSubMenuDaoUtils.updateByOne(SubMenu)){
+                                   Toast.makeText(mContext,"更新成功",Toast.LENGTH_SHORT).show();
                                 }
-                            }else if(!StringUtils.isDoubleOrFloat(subMenu_sale_dialog_ed.getText().toString())){
-                                Toast.makeText(mContext,"请填写正确的折扣",Toast.LENGTH_SHORT).show();
-                                mydismissDialog(dialog,false);
-                            }else if(Float.valueOf(subMenu_sale_dialog_ed.getText().toString())>10||
-                                        Float.valueOf(subMenu_sale_dialog_ed.getText().toString())<0 ){
+                            }else {
+                                OrderSubMenu orderSubMenu = new OrderSubMenu();
+                                orderSubMenu.setName(subMenu_name_dialog_ed.getText().toString());
+                                orderSubMenu.setCreateYear(date);
+                                orderSubMenu.setPrice(Float.valueOf(subMenu_price_dialog_ed.getText().toString()));
+                                orderSubMenu.setIsAble("1");
+                                orderSubMenu.setSuperMenuId(superMenuId);
+                                orderSubMenu.setPinyingId(subMenu_piinyin_dialog_ed.getText().toString());
+                                orderSubMenu.setIntroduction(subMenu_introduction_dialog_ed.getText().toString());
+                                if (subMenu_sale_dialog_ed.getText().toString().trim().equals("")) {
+                                    //如果空默认是1
+                                    orderSubMenu.setSale(1);
+                                    if (orderSubMenuDaoUtils.insertByOne(orderSubMenu)) {
+                                        subMenuqueryAll(superMenuId);
+                                        mydismissDialog(dialog, true);
+                                    } else {
+                                        Toast.makeText(mContext, "添加菜品失败！", Toast.LENGTH_SHORT).show();
+                                        mydismissDialog(dialog, false);
+                                    }
+                                } else if (!StringUtils.isDoubleOrFloat(subMenu_sale_dialog_ed.getText().toString())) {
+                                    Toast.makeText(mContext, "请填写正确的折扣", Toast.LENGTH_SHORT).show();
+                                    mydismissDialog(dialog, false);
+                                } else if (Float.valueOf(subMenu_sale_dialog_ed.getText().toString()) > 10 ||
+                                        Float.valueOf(subMenu_sale_dialog_ed.getText().toString()) < 0) {
                                     //否者输入数字除以10
-                                    Toast.makeText(mContext,"请输入10到1之间的数，保留2为小数点",Toast.LENGTH_SHORT).show();
-                                mydismissDialog(dialog,false);
-                            }else{
-                                orderSubMenu.setPrice(Float.valueOf(subMenu_sale_dialog_ed.getText().toString())/10);
-                                Toast.makeText(mContext,"折扣="+subMenu_sale_dialog_ed.getText().toString(),Toast.LENGTH_SHORT).show();
-                                 if (orderSubMenuDaoUtils.insertByOne(orderSubMenu)) {
-                                     subMenuqueryAll(superMenuId);
-                                     mydismissDialog(dialog, true);
-                                 }else{
-                                     Toast.makeText(mContext,"添加菜品失败！",Toast.LENGTH_SHORT).show();
-                                     mydismissDialog(dialog,false);
+                                    Toast.makeText(mContext, "请输入10到1之间的数，保留2为小数点", Toast.LENGTH_SHORT).show();
+                                    mydismissDialog(dialog, false);
+                                } else {
+                                    orderSubMenu.setPrice(Float.valueOf(subMenu_sale_dialog_ed.getText().toString()) / 10);
+                                    Toast.makeText(mContext, "折扣=" + subMenu_sale_dialog_ed.getText().toString(), Toast.LENGTH_SHORT).show();
+                                    if (orderSubMenuDaoUtils.insertByOne(orderSubMenu)) {
+                                        subMenuqueryAll(superMenuId);
+                                        mydismissDialog(dialog, true);
+                                    } else {
+                                        Toast.makeText(mContext, "添加菜品失败！", Toast.LENGTH_SHORT).show();
+                                        mydismissDialog(dialog, false);
 
-                                 }
+                                    }
+                                }
                             }
                         }
 
@@ -270,8 +316,30 @@ public class OrderMenuManageActivity extends AppCompatActivity {
                 subMenu_sale_dialog_ed.setText("");
             }
         });
+        subMenu_setting_dialog_delete_bn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new AlertDialog.Builder(mContext)
+                        .setTitle("提示")
+                        .setMessage("删除："+superMenu_sp_select_name+"-"+orderSubMenu.getName())
+                        .setNeutralButton("确定", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                if(orderSubMenuDaoUtils.deleteByOne(orderSubMenu)){
+                                    subMenuAdd_dialog.dismiss();
+                                    subMenuqueryAll(superMenuId);
+                                }else{
+                                    Toast.makeText(mContext,"删除失败！",Toast.LENGTH_SHORT).show();
+                                }
+
+                            }
+                        })
+                        .setPositiveButton("取消",null)
+                        .show();
+
+            }
+        });
     }
-    OrderSubMenuAdapter SubMenuAdapter;
 
     private void subMenuqueryAll(Long superId){
         orderSubMenuList.clear();
@@ -310,9 +378,9 @@ public class OrderMenuManageActivity extends AppCompatActivity {
 
         }
        if(orderSuperMenuList.size()>0) {
-           OrderSuperMenuAdapter adapter = new OrderSuperMenuAdapter(mContext, orderSuperMenuList, R.layout.order_supermenu_listview_item);
-           superMenu_sp.setAdapter(adapter);
-           adapter.notifyDataSetChanged();
+           superMenuAdapter = new OrderSuperMenuAdapter(mContext, orderSuperMenuList, R.layout.order_supermenu_listview_item);
+           superMenu_sp.setAdapter(superMenuAdapter);
+           superMenuAdapter.notifyDataSetChanged();
        }
     }
 
