@@ -13,11 +13,14 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.wdq.micorestore.Launcher;
 import com.wdq.micorestore.R;
 import com.wdq.micorestore.order.adapter.OrderSubMenuAdapter;
+import com.wdq.micorestore.order.adapter.OrderSubTableAdapter;
 import com.wdq.micorestore.order.adapter.OrderSuperMenuAdapter;
+import com.wdq.micorestore.order.adapter.OrderSuperTableAdapter;
 import com.wdq.micorestore.order.bean.OrderSubMenu;
 import com.wdq.micorestore.order.bean.OrderSubMenuDao;
 import com.wdq.micorestore.order.bean.OrderSubTableBean;
@@ -27,6 +30,7 @@ import com.wdq.micorestore.order.dao.OrderSubMenuDaoUtils;
 import com.wdq.micorestore.order.dao.OrderSubTableBeanDaoUtils;
 import com.wdq.micorestore.order.dao.OrderSuperMenuDaoUtils;
 import com.wdq.micorestore.order.dao.OrderSuperTableBeanDaoUtils;
+import com.wdq.micorestore.widget.PopupDialogMedia;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -68,11 +72,14 @@ public class OrderMainActivity extends AppCompatActivity {
 
     OrderSubMenuAdapter orderSubMenuAdapter;
     OrderSuperMenuAdapter orderSuperMenuAdapter;
+    private OrderSubMenuAdapter SubMenuAdapter;
 
+    Long superTable_Id;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mContext=this;
+        orderSubMenus_List=new ArrayList<>();
         setContentView(R.layout.activity_order_main);
         initDate();
         initView();
@@ -105,19 +112,28 @@ public class OrderMainActivity extends AppCompatActivity {
 
     private void setDate() {
         orderSuperMenu_List= orderSuperMenuDaoUtils.queryAll();
+//        orderSuperTableBean_List=orderSuperTableBeanDaoUtils.queryAll();
+//        superMenuqueryAll();
+        if(orderSuperMenu_List.size()>0) {
+            findOrderSubMenu(orderSuperMenu_List.get(0).getId());
+        }
+
         orderSuperTableBean_List=orderSuperTableBeanDaoUtils.queryAll();
+        if(orderSuperTableBean_List.size()>0){
+            findOrderSubTable(orderSuperTableBean_List.get(0).getId());
+        }
     }
 
 
     private void setView() {
-
+        setDate();
         orderSuperMenuAdapter=new OrderSuperMenuAdapter(mContext,orderSuperMenu_List,R.layout.order_supermenu_listview_item);
 
         superMenu_Listview.setAdapter(orderSuperMenuAdapter);
         superMenu_Listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                findOrderSubMenu(orderSubMenus_List.get(position).getId());
+                findOrderSubMenu(orderSuperMenu_List.get(position).getId());
             }
         });
         orderSuperMenuAdapter.notifyDataSetChanged();
@@ -130,6 +146,40 @@ public class OrderMainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+        OrderSuperTableAdapter superTableadapter=new OrderSuperTableAdapter(mContext,orderSuperTableBean_List);
+        superTable_Spinner.setAdapter(superTableadapter);
+        superTable_Spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                superTable_Id=orderSuperTableBean_List.get(position).getId();
+                findOrderSubTable(orderSuperTableBean_List.get(position).getId());
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+        subTable_Spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Toast.makeText(mContext, orderSubTableBean_List.get(position).getName(), Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+
+        order_bottom_order_bn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new PopupDialogMedia(mContext)
+                        .show();
+            }
+        });
     }
 
 
@@ -137,26 +187,45 @@ public class OrderMainActivity extends AppCompatActivity {
 
     //查询子菜单
     private void findOrderSubMenu(Long superId){
+
+        orderSubMenus_List.clear();
         String sql = "where SUPER_MENU_Id = ?";
         String[] condition = new String[]{String.valueOf(superId)};
-        orderSubMenus_List=new ArrayList<>();
-        orderSubMenus_List=orderSubMenuDaoUtils.queryByNativeSql(sql,condition);
-        orderSubMenuAdapter=new OrderSubMenuAdapter(mContext,orderSubMenus_List,R.layout.order_submenu_listview_item);
-        subMenu_RecyclerView.setAdapter(orderSubMenuAdapter);
-        orderSubMenuAdapter.notifyDataSetChanged();
-        orderSubMenuAdapter.setmItemClickListener(new OrderSubMenuAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(View view, int position) {
-                //将点的菜 加入账单列表中
-            }
-        });
+        List<OrderSubMenu> orderSubMenuUtilsList = orderSubMenuDaoUtils.queryByNativeSql(sql,condition);
+        if (orderSubMenuUtilsList.size()>0){
+            orderSubMenus_List=orderSubMenuUtilsList;
+        }
+        if(orderSubMenus_List.size()>0) {
+            SubMenuAdapter = new OrderSubMenuAdapter(mContext, orderSubMenus_List, R.layout.order_submenu_listview_item);
+            subMenu_RecyclerView.setAdapter(SubMenuAdapter);
+            SubMenuAdapter.notifyDataSetChanged();
+            SubMenuAdapter.setmItemClickListener(new OrderSubMenuAdapter.OnItemClickListener() {
+                @Override
+                public void onItemClick(View view, int position) {
+                    //将点的菜 加入账单列表中
+                    Toast.makeText(mContext,orderSubMenus_List.get(position).getName(),Toast.LENGTH_SHORT).show();
+                }
+            });
+            SubMenuAdapter.setOnItemLongTouchLinstener(new OrderSubMenuAdapter.OnItemLongTouchLinstener() {
+                @Override
+                public void onLongTouch(View view, int position) {
+
+                }
+            });
+        }
     }
 
     //查询子桌号
-    private void findOrderSuperTable(Long superId){
+    private void findOrderSubTable(Long superId){
         String sql = "where SUPER_TABLE_ID = ?";
         String[] condition = new String[]{String.valueOf(superId)};
         orderSubTableBean_List=new ArrayList<>();
         orderSubTableBean_List=orderSubTableBeanDaoUtils.queryByNativeSql(sql,condition);
+        if(orderSubTableBean_List.size()>0){
+            OrderSubTableAdapter subTableAdapter=new OrderSubTableAdapter(mContext,orderSubTableBean_List);
+            subTable_Spinner.setAdapter(subTableAdapter);
+            subTableAdapter.notifyDataSetChanged();
+        }
+
     }
 }

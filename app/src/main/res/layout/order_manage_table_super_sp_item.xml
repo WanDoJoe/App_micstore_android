@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_marginTop="1px"
+    android:layout_marginBottom="1px"
+    android:layout_height="match_parent">
+<TextView
+    android:layout_width="match_parent"
+    android:layout_height="48dp"
+    android:gravity="center_vertical"
+    android:textSize="16sp"
+    android:background="#a9c5c5c5"
+    android:paddingTop="1px"
+    android:paddingBottom="1px"
+    android:id="@+id/order_manage_table_super_sp_item_name"
+    />
+</android.support.constraint.ConstraintLayout>

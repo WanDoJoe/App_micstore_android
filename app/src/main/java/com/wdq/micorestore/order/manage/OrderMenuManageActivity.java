@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
@@ -102,7 +103,7 @@ public class OrderMenuManageActivity extends AppCompatActivity {
         subMenu_add_bn.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                addSubMenuDialog(null);
+                addSubMenuDialog(null,"click");
 
             }
         });
@@ -206,7 +207,7 @@ public class OrderMenuManageActivity extends AppCompatActivity {
 
     }
 
-    private void addSubMenuDialog(final OrderSubMenu orderSubMenu){
+    private void addSubMenuDialog(final OrderSubMenu orderSubMenu,String action){
         subMenuAdd_dialog_view=LayoutInflater.from(mContext).inflate(R.layout.order_menu_setting_sub_dialog,null);
         subMenu_date_dialog_tv=subMenuAdd_dialog_view.findViewById(R.id.order_menu_setting_sub_dialog_date);
         subMenu_supername_dialog_tv=subMenuAdd_dialog_view.findViewById(R.id.order_menu_setting_sub_dialog_supername);
@@ -248,18 +249,36 @@ public class OrderMenuManageActivity extends AppCompatActivity {
                         }else{
                             if(orderSubMenu!=null){
                                 OrderSubMenu SubMenu = new OrderSubMenu();
+                                SubMenu.setId(orderSubMenu.getId());
                                 SubMenu.setName(subMenu_name_dialog_ed.getText().toString());
                                 SubMenu.setCreateYear(date);
+                                String price=subMenu_price_dialog_ed.getText().toString();
                                 SubMenu.setPrice(Float.valueOf(subMenu_price_dialog_ed.getText().toString()));
                                 SubMenu.setIsAble("1");
-                                SubMenu.setSuperMenuId(superMenuId);
+                                SubMenu.setSuperMenuId(orderSubMenu.getSuperMenuId());
                                 SubMenu.setPinyingId(subMenu_piinyin_dialog_ed.getText().toString());
                                 SubMenu.setIntroduction(subMenu_introduction_dialog_ed.getText().toString());
-                                SubMenu.setPrice(Float.valueOf(subMenu_sale_dialog_ed.getText().toString()) / 10);
-                                if(orderSubMenuDaoUtils.updateByOne(SubMenu)){
-                                   Toast.makeText(mContext,"更新成功",Toast.LENGTH_SHORT).show();
+
+                                if (Float.valueOf(subMenu_sale_dialog_ed.getText().toString()) > 10 ||
+                                        Float.valueOf(subMenu_sale_dialog_ed.getText().toString()) < 0) {
+                                    //否者输入数字除以10
+                                    Toast.makeText(mContext, "请输入10到1之间的数，保留2为小数点", Toast.LENGTH_SHORT).show();
+                                    mydismissDialog(dialog, false);
+                                    return;
+                                }else {
+                                    SubMenu.setSale((float)(Float.valueOf(subMenu_sale_dialog_ed.getText().toString())*0.1));
                                 }
+
+                                    if(orderSubMenuDaoUtils.updateByOne(SubMenu)){
+                                   Toast.makeText(mContext,"更新成功",Toast.LENGTH_SHORT).show();
+                                        subMenuqueryAll(SubMenu.getSuperMenuId());
+                                }else {
+                                    Toast.makeText(mContext,"更新失败",Toast.LENGTH_SHORT).show();
+                                }
+
+                                mydismissDialog(dialog, true);
                             }else {
+                                Log.e("wan","插入新数据");
                                 OrderSubMenu orderSubMenu = new OrderSubMenu();
                                 orderSubMenu.setName(subMenu_name_dialog_ed.getText().toString());
                                 orderSubMenu.setCreateYear(date);
@@ -287,7 +306,7 @@ public class OrderMenuManageActivity extends AppCompatActivity {
                                     Toast.makeText(mContext, "请输入10到1之间的数，保留2为小数点", Toast.LENGTH_SHORT).show();
                                     mydismissDialog(dialog, false);
                                 } else {
-                                    orderSubMenu.setPrice(Float.valueOf(subMenu_sale_dialog_ed.getText().toString()) / 10);
+                                    orderSubMenu.setPrice((float)(Float.valueOf(subMenu_sale_dialog_ed.getText().toString())*0.1));
                                     Toast.makeText(mContext, "折扣=" + subMenu_sale_dialog_ed.getText().toString(), Toast.LENGTH_SHORT).show();
                                     if (orderSubMenuDaoUtils.insertByOne(orderSubMenu)) {
                                         subMenuqueryAll(superMenuId);
@@ -362,7 +381,7 @@ public class OrderMenuManageActivity extends AppCompatActivity {
             SubMenuAdapter.setOnItemLongTouchLinstener(new OrderSubMenuAdapter.OnItemLongTouchLinstener() {
                 @Override
                 public void onLongTouch(View view, int position) {
-                    addSubMenuDialog(orderSubMenuList.get(position));
+                    addSubMenuDialog(orderSubMenuList.get(position),"update");
                 }
             });
         }

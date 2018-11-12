@@ -9,6 +9,7 @@ import android.widget.Button;
 
 import com.wdq.micorestore.R;
 import com.wdq.micorestore.order.manage.OrderMenuManageActivity;
+import com.wdq.micorestore.order.manage.OrderTableManageActivity;
 
 public class OrderSettingActivity extends AppCompatActivity {
     Context mContext;
@@ -35,9 +36,17 @@ public class OrderSettingActivity extends AppCompatActivity {
 
             }
         });
+        setting_table_bn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent =new Intent(mContext, OrderTableManageActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     private void initView() {
         setting_menu_bn=findViewById(R.id.order_setting_menu_bn);
+        setting_table_bn=findViewById(R.id.order_setting_table_bn);
     }
 }
