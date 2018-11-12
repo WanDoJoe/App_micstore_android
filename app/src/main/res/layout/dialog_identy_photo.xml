@@ -11,6 +11,9 @@
         android:layout_height="50dp"
         android:gravity="center"
         android:textColor="#000"
+        android:background="#acacac"
+        android:layout_marginBottom="1dp"
+        android:layout_marginTop="1dp"
         android:padding="10dp"
         android:text="拍照" />
 
@@ -25,7 +28,10 @@
         android:layout_height="50dp"
         android:gravity="center"
         android:textColor="#000"
+        android:background="#acacac"
         android:padding="10dp"
+        android:layout_marginBottom="1dp"
+        android:layout_marginTop="1dp"
         android:text="选择现有的" />
 
     <ImageView
@@ -38,7 +44,10 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:gravity="center"
+        android:background="#acacac"
         android:padding="10dp"
+        android:layout_marginBottom="1dp"
+        android:layout_marginTop="1dp"
         android:textColor="#000"
         android:text="取消" />
 

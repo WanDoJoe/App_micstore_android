@@ -46,7 +46,7 @@ public class OrderMenuManageActivity extends AppCompatActivity {
     private EditText superMenu_name_dialog_ed,superMenu_pinyin_dialog_ed;
     private EditText subMenu_name_dialog_ed,subMenu_price_dialog_ed,subMenu_sale_dialog_ed,
             subMenu_piinyin_dialog_ed,subMenu_introduction_dialog_ed;
-    private TextView subMenu_date_dialog_tv,subMenu_supername_dialog_tv;
+    private TextView subMenu_date_dialog_tv,subMenu_supername_dialog_tv,order_menu_manage_super_name;
     private Button subMenu_sale_dialog_reset_bn,subMenu_setting_dialog_delete_bn;
 
     private OrderSuperMenuDaoUtils orderSuperMenuDaoUtils;
@@ -60,7 +60,6 @@ public class OrderMenuManageActivity extends AppCompatActivity {
 
     OrderSubMenuAdapter SubMenuAdapter=null;
     OrderSuperMenuAdapter superMenuAdapter=null;
-
 
 
     @Override
@@ -126,6 +125,7 @@ public class OrderMenuManageActivity extends AppCompatActivity {
                 superMenu_sp_select_name=orderSuperMenuList.get(position).getName();
                 orderSubMenuList.clear();
                 superMenuId=orderSuperMenuList.get(position).getId();
+                order_menu_manage_super_name.setText(orderSuperMenuList.get(position).getName());
                 subMenuqueryAll(superMenuId);
                 if(SubMenuAdapter!=null) {
                     SubMenuAdapter.notifyDataSetChanged();
@@ -164,6 +164,7 @@ public class OrderMenuManageActivity extends AppCompatActivity {
         superMenu_sp=findViewById(R.id.order_menu_manage_super_spinner);
         subMenu_RecyclerView=findViewById(R.id.order_menu_manage_sub_RecyclerView);
 
+        order_menu_manage_super_name=findViewById(R.id.order_menu_manage_super_name);
     }
 
     private void addSuperMenuDialog(){
