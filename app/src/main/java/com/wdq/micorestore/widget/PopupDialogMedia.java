@@ -28,8 +28,15 @@ public class PopupDialogMedia extends Dialog {
     public PopupDialogMedia(Context context){
         super(context, R.style.PopupDialog);
         this.context = context;
-//        setMsgDialog();
+        setMsgDialog();
     }
+
+    public PopupDialogMedia(Context context,View view){
+        super(context, R.style.PopupDialog);
+        this.context = context;
+        setMsgDialog(view);
+    }
+
     public void setMsgDialog(View v){
         Window win = this.getWindow();
         this.setCanceledOnTouchOutside(isCancel);

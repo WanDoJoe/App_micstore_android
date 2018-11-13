@@ -1,11 +1,14 @@
 package com.wdq.micorestore.order;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -21,6 +24,7 @@ import com.wdq.micorestore.order.adapter.OrderSubMenuAdapter;
 import com.wdq.micorestore.order.adapter.OrderSubTableAdapter;
 import com.wdq.micorestore.order.adapter.OrderSuperMenuAdapter;
 import com.wdq.micorestore.order.adapter.OrderSuperTableAdapter;
+import com.wdq.micorestore.order.adapter.PopupDialogMediaRecyclerViewAdapter;
 import com.wdq.micorestore.order.bean.OrderSubMenu;
 import com.wdq.micorestore.order.bean.OrderSubMenuDao;
 import com.wdq.micorestore.order.bean.OrderSubTableBean;
@@ -176,12 +180,23 @@ public class OrderMainActivity extends AppCompatActivity {
         order_bottom_order_bn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new PopupDialogMedia(mContext)
-                        .show();
+                popupDialogMediaView();
+
             }
         });
     }
+    List<String> reckoningList=new ArrayList<>();
+    private void popupDialogMediaView(){
+        View popupDialo_View= LayoutInflater.from(mContext).inflate(R.layout.order_main_popup_dialog_layout,null);
+        RecyclerView popupDialo_rv=popupDialo_View.findViewById(R.id.order_main_popup_dialog_rv);
+        PopupDialogMediaRecyclerViewAdapter dialogMediaRecyclerViewAdapter
+                =new PopupDialogMediaRecyclerViewAdapter(mContext,reckoningList,R.layout.order_main_popup_dialog_item);
+        popupDialo_rv.setLayoutManager(new LinearLayoutManager(mContext));
+        popupDialo_rv.setAdapter(dialogMediaRecyclerViewAdapter);
+        dialogMediaRecyclerViewAdapter.notifyDataSetChanged();
 
+        new PopupDialogMedia(mContext,popupDialo_View).show();
+    }
 
 
 
@@ -204,6 +219,7 @@ public class OrderMainActivity extends AppCompatActivity {
                 public void onItemClick(View view, int position) {
                     //将点的菜 加入账单列表中
                     Toast.makeText(mContext,orderSubMenus_List.get(position).getName(),Toast.LENGTH_SHORT).show();
+                    reckoningList.add(orderSubMenus_List.get(position).getName());
                 }
             });
             SubMenuAdapter.setOnItemLongTouchLinstener(new OrderSubMenuAdapter.OnItemLongTouchLinstener() {
