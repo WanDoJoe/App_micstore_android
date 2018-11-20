@@ -3,6 +3,7 @@ package com.wdq.micorestore;
 import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -145,9 +146,11 @@ public class LoginActivity extends Activity implements EasyPermissions.Permissio
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        // Forward results to EasyPermissions
-        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
+       if(Build.VERSION.SDK_INT>21) {
+           super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+           // Forward results to EasyPermissions
+           EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
+       }
     }
     @AfterPermissionGranted(Common.REQUEST_CAMERA_PERM)
     public void cameraTask(int viewId) {
