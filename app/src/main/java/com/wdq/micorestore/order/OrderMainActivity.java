@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
@@ -37,6 +38,7 @@ import com.wdq.micorestore.order.dao.OrderSuperTableBeanDaoUtils;
 import com.wdq.micorestore.widget.PopupDialogMedia;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -79,6 +81,8 @@ public class OrderMainActivity extends AppCompatActivity {
     private OrderSubMenuAdapter SubMenuAdapter;
 
     Long superTable_Id;
+
+    List<String> reckoningList=new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -180,24 +184,35 @@ public class OrderMainActivity extends AppCompatActivity {
         order_bottom_order_bn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                popupDialogMediaView();
-
+//                popupDialogMediaView();
+                showOrderList();
             }
         });
     }
-    List<String> reckoningList=new ArrayList<>();
+    private void showOrderList(){
+//        if(reckoningList.size()<0){
+//            return;
+//        }
+        for (int i=0;i<=reckoningList.size();i++){
+            Log.e("showOrderList",reckoningList.get(i));
+        }
+
+//        PopupDialogMediaRecyclerViewAdapter dialogMediaRecyclerViewAdapter
+//                =new PopupDialogMediaRecyclerViewAdapter(mContext,reckoningList,R.layout.order_main_popup_dialog_item,null);
+    }
+
+    //订单详情dialog方式
     private void popupDialogMediaView(){
         View popupDialo_View= LayoutInflater.from(mContext).inflate(R.layout.order_main_popup_dialog_layout,null);
         RecyclerView popupDialo_rv=popupDialo_View.findViewById(R.id.order_main_popup_dialog_rv);
         PopupDialogMediaRecyclerViewAdapter dialogMediaRecyclerViewAdapter
-                =new PopupDialogMediaRecyclerViewAdapter(mContext,reckoningList,R.layout.order_main_popup_dialog_item);
+                =new PopupDialogMediaRecyclerViewAdapter(mContext,reckoningList,R.layout.order_main_popup_dialog_item,null);
         popupDialo_rv.setLayoutManager(new LinearLayoutManager(mContext));
         popupDialo_rv.setAdapter(dialogMediaRecyclerViewAdapter);
         dialogMediaRecyclerViewAdapter.notifyDataSetChanged();
 
         new PopupDialogMedia(mContext,popupDialo_View).show();
     }
-
 
 
     //查询子菜单
@@ -242,6 +257,5 @@ public class OrderMainActivity extends AppCompatActivity {
             subTable_Spinner.setAdapter(subTableAdapter);
             subTableAdapter.notifyDataSetChanged();
         }
-
     }
 }

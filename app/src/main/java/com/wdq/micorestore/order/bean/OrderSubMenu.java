@@ -22,10 +22,11 @@ public class OrderSubMenu {
     private float sale;//折扣
     private String isAble;
     private String createYear;
-    @Generated(hash = 1771293636)
+    private String unit;
+    @Generated(hash = 267744851)
     public OrderSubMenu(Long id, Long superMenuId, String pinyingId, String name,
             String introduction, float price, float sale, String isAble,
-            String createYear) {
+            String createYear, String unit) {
         this.id = id;
         this.superMenuId = superMenuId;
         this.pinyingId = pinyingId;
@@ -35,6 +36,7 @@ public class OrderSubMenu {
         this.sale = sale;
         this.isAble = isAble;
         this.createYear = createYear;
+        this.unit = unit;
     }
     @Generated(hash = 841012027)
     public OrderSubMenu() {
@@ -93,5 +95,12 @@ public class OrderSubMenu {
     public void setCreateYear(String createYear) {
         this.createYear = createYear;
     }
-   
+
+    public String getUnit() {
+        return unit;
+    }
+
+    public void setUnit(String unit) {
+        this.unit = unit;
+    }
 }

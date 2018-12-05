@@ -12,6 +12,7 @@ import com.wdq.micorestore.R;
 import com.wdq.micorestore.utils.VibrateHelp;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by wan on 18-11-13.
@@ -21,11 +22,12 @@ public class PopupDialogMediaRecyclerViewAdapter extends RecyclerView.Adapter<Po
     private Context context;
     private List<String> mList;
     private int layoutId;
-
-    public PopupDialogMediaRecyclerViewAdapter(Context context, List<String> mList, int layoutId) {
+    private Map<String ,Integer> map;
+    public PopupDialogMediaRecyclerViewAdapter(Context context, List<String> mList, int layoutId, Map<String ,Integer> map) {
         this.context = context;
         this.mList = mList;
         this.layoutId = layoutId;
+        this.map=map;
     }
 
 
@@ -74,10 +76,10 @@ public class PopupDialogMediaRecyclerViewAdapter extends RecyclerView.Adapter<Po
 
         public MyViewHolder(View itemView) {
             super(itemView);
-            name = itemView.findViewById(R.id.order_main_popup_dialog_item_name);
+            name = itemView.findViewById(map.get("name"));
 //            price = itemView.findViewById(R.id.order_submenu_listview_item_price_new_tv);
 //            salePrice = itemView.findViewById(R.id.order_submenu_listview_item_price_tv);
-            linearLayout = itemView.findViewById(R.id.order_main_popup_dialog_item_layout_ll);
+            linearLayout = itemView.findViewById(map.get("linearLayout"));
         }
     }
 

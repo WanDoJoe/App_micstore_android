@@ -111,21 +111,35 @@
                 android:layout_weight="85" />
         </LinearLayout>
 </RelativeLayout>
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/order_launcher_bottom_recyclerview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="45dp"
+        android:background="#dac345"
+ />
     <RelativeLayout
         android:layout_width="match_parent"
         android:background="#54c5c5c5"
         android:layout_alignParentBottom="true"
-        android:layout_height="50dp">
+        android:layout_height="45dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:background="#54c5c5c5"
+            android:layout_alignParentBottom="true"
+            android:layout_height="wrap_content">
         <Button
             android:id="@+id/order_bottom_order_bn"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="45dp"
             android:layout_alignParentLeft="true"
             android:text="订单详情"/>
         <RelativeLayout
             android:layout_toRightOf="@+id/order_bottom_order_bn"
             android:layout_width="200dp"
-            android:layout_height="match_parent"
+            android:layout_height="45dp"
             android:layout_marginLeft="2dp"
             android:layout_marginBottom="2dp"
             android:orientation="vertical">
@@ -151,9 +165,10 @@
         <Button
             android:id="@+id/order_bottom_reckoning_bn"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="45dp"
             android:layout_alignParentRight="true"
             android:text="结算"/>
+        </RelativeLayout>
     </RelativeLayout>
 
 
