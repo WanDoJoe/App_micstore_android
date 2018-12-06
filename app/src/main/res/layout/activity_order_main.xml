@@ -118,6 +118,7 @@
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="45dp"
         android:background="#dac345"
+        android:visibility="gone"
  />
     <RelativeLayout
         android:layout_width="match_parent"

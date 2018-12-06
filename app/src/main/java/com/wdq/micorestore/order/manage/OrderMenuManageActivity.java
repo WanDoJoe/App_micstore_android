@@ -45,7 +45,7 @@ public class OrderMenuManageActivity extends AppCompatActivity {
     private Dialog superMenuAdd_dialog,subMenuAdd_dialog;
     private EditText superMenu_name_dialog_ed,superMenu_pinyin_dialog_ed;
     private EditText subMenu_name_dialog_ed,subMenu_price_dialog_ed,subMenu_sale_dialog_ed,
-            subMenu_piinyin_dialog_ed,subMenu_introduction_dialog_ed;
+            subMenu_piinyin_dialog_ed,subMenu_introduction_dialog_ed,subMenu_order_menu_setting_sub_dialog_unit;
     private TextView subMenu_date_dialog_tv,subMenu_supername_dialog_tv,order_menu_manage_super_name;
     private Button subMenu_sale_dialog_reset_bn,subMenu_setting_dialog_delete_bn;
 
@@ -220,7 +220,8 @@ public class OrderMenuManageActivity extends AppCompatActivity {
         subMenu_piinyin_dialog_ed=subMenuAdd_dialog_view.findViewById(R.id.order_menu_setting_sub_dialog_pinyin);
         subMenu_introduction_dialog_ed=subMenuAdd_dialog_view.findViewById(R.id.order_menu_setting_sub_dialog_introduction);
         subMenu_sale_dialog_reset_bn=subMenuAdd_dialog_view.findViewById(R.id.order_menu_setting_sub_dialog_price_sale_reset_bn);
-
+        subMenu_order_menu_setting_sub_dialog_unit=
+                subMenuAdd_dialog_view.findViewById(R.id.order_menu_setting_sub_dialog_unit);
         final String date = DateUtil.geDate();
         if(orderSubMenu!=null){
             subMenu_setting_dialog_delete_bn.setVisibility(View.VISIBLE);
@@ -230,6 +231,7 @@ public class OrderMenuManageActivity extends AppCompatActivity {
             subMenu_sale_dialog_ed.setText(Float.toString(orderSubMenu.getSale()*10));
             subMenu_piinyin_dialog_ed.setText(orderSubMenu.getPinyingId());
             subMenu_introduction_dialog_ed.setText(orderSubMenu.getIntroduction());
+            subMenu_order_menu_setting_sub_dialog_unit.setText(orderSubMenu.getUnit());
         }else {
             subMenu_setting_dialog_delete_bn.setVisibility(View.GONE);
             subMenu_date_dialog_tv.setText(date);
@@ -259,7 +261,7 @@ public class OrderMenuManageActivity extends AppCompatActivity {
                                 SubMenu.setSuperMenuId(orderSubMenu.getSuperMenuId());
                                 SubMenu.setPinyingId(subMenu_piinyin_dialog_ed.getText().toString());
                                 SubMenu.setIntroduction(subMenu_introduction_dialog_ed.getText().toString());
-
+                                SubMenu.setUnit(subMenu_order_menu_setting_sub_dialog_unit.getText().toString());
                                 if (Float.valueOf(subMenu_sale_dialog_ed.getText().toString()) > 10 ||
                                         Float.valueOf(subMenu_sale_dialog_ed.getText().toString()) < 0) {
                                     //否者输入数字除以10
@@ -288,6 +290,7 @@ public class OrderMenuManageActivity extends AppCompatActivity {
                                 orderSubMenu.setSuperMenuId(superMenuId);
                                 orderSubMenu.setPinyingId(subMenu_piinyin_dialog_ed.getText().toString());
                                 orderSubMenu.setIntroduction(subMenu_introduction_dialog_ed.getText().toString());
+                                orderSubMenu.setUnit(subMenu_order_menu_setting_sub_dialog_unit.getText().toString());
                                 if (subMenu_sale_dialog_ed.getText().toString().trim().equals("")) {
                                     //如果空默认是1
                                     orderSubMenu.setSale(1);

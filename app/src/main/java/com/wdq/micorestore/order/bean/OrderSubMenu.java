@@ -23,10 +23,11 @@ public class OrderSubMenu {
     private String isAble;
     private String createYear;
     private String unit;
-    @Generated(hash = 267744851)
+    private int choseNumb;//选商品的数量
+    @Generated(hash = 1034483986)
     public OrderSubMenu(Long id, Long superMenuId, String pinyingId, String name,
             String introduction, float price, float sale, String isAble,
-            String createYear, String unit) {
+            String createYear, String unit, int choseNumb) {
         this.id = id;
         this.superMenuId = superMenuId;
         this.pinyingId = pinyingId;
@@ -37,6 +38,7 @@ public class OrderSubMenu {
         this.isAble = isAble;
         this.createYear = createYear;
         this.unit = unit;
+        this.choseNumb = choseNumb;
     }
     @Generated(hash = 841012027)
     public OrderSubMenu() {
@@ -95,12 +97,17 @@ public class OrderSubMenu {
     public void setCreateYear(String createYear) {
         this.createYear = createYear;
     }
-
     public String getUnit() {
-        return unit;
+        return this.unit;
     }
-
     public void setUnit(String unit) {
         this.unit = unit;
     }
+    public int getChoseNumb() {
+        return this.choseNumb;
+    }
+    public void setChoseNumb(int choseNumb) {
+        this.choseNumb = choseNumb;
+    }
+    
 }

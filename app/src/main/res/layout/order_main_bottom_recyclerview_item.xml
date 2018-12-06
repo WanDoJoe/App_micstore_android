@@ -17,6 +17,7 @@
        android:layout_weight="40"
        android:layout_marginLeft="4dp"
        android:layout_height="match_parent"
+       android:layout_gravity="right"
        android:gravity="center"
        android:orientation="horizontal"
        >
@@ -27,7 +28,7 @@
           android:layout_marginRight="6dp"
           android:text="-"/>
       <TextView
-          android:id="@+id/order_main_bottom_rc_item_bn_num"
+          android:id="@+id/order_main_bottom_rc_item_bn_num_tv"
           android:layout_width="40dp"
           android:layout_height="wrap_content"
           android:gravity="center"
