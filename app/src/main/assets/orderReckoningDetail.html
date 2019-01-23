@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+    <title>HTML</title>
+    <meta name="author" content="sinosoft">
+    <!-- Date: 2018-05-22 -->
+    <style type="text/css">
+   </style>
+	
+</head>
+<body>
+	<div id="showpage"></div>
+</body>
+<script type="text/javascript">
+var json=[{"id":1,"choseNumb":2,"createYear":"2019年01月17日 11:52:59","introduction":"","isAble":"1","name":"底料","pinyingId":"","price":56,"sale":1,"superMenuId":1,"unit":"分份"},{"id":2,"choseNumb":1,"createYear":"2019年01月17日 11:53:16","introduction":"","isAble":"1","name":"啊","pinyingId":"","price":12,"sale":1,"superMenuId":1,"unit":""}]
+	function show(data) {
+		var htmlStr="";
+		// body...
+		var dataJson=data;//JSON.parse(data);
+        alert(data)
+		htmlStr+="<table>";
+		htmlStr+="<tr><td>名称</td> <td>数量</td> <td>价格</td> </tr>";
+		for (var i = 0; i < dataJson.length; i++) {
+			htmlStr+="<tr><td>"+dataJson[i].name+"</td>";
+			htmlStr+=" <td>"+dataJson[i].choseNumb+" "+dataJson[i].unit+"</td> ";
+			htmlStr+="<td>"+dataJson[i].price+"</td> </tr>";
+		}
+
+		htmlStr+="</table>";
+
+		document.getElementById("showpage").innerHTML=htmlStr;
+	}
+	// window.onload=function(){
+
+	// 	show(JSON.stringify(json));
+	// }
+</script>
+</html>

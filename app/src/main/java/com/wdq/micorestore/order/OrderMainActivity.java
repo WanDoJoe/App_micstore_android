@@ -38,6 +38,10 @@ import com.wdq.micorestore.order.dao.OrderSuperMenuDaoUtils;
 import com.wdq.micorestore.order.dao.OrderSuperTableBeanDaoUtils;
 import com.wdq.micorestore.widget.PopupDialogMedia;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -87,6 +91,10 @@ public class OrderMainActivity extends AppCompatActivity {
 
     List<OrderSubMenu> reckoningList=new ArrayList<>();
     RecyclerView order_launcher_bottom_recyclerview;
+
+    //选择的订单详情
+    boolean isShow_order_launcher_bottom_recyclerview=true;
+    OrderReckoningRecyclerViewAdapter orderReckoningRecyclerViewadapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -201,8 +209,45 @@ public class OrderMainActivity extends AppCompatActivity {
                 }
             }
         });
+        order_bottom_reckoning_bn.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                //下单结算
+                try {
+                    if(reckoningList.size()>0) {
+                        Intent intent = new Intent(mContext,OredrReckoningActivity.class);
+                        intent.putExtra("data", list2json(reckoningList));
+                        startActivity(intent);
+                    }else{
+                        Toast.makeText(mContext,"订单不能为空",Toast.LENGTH_SHORT).show();
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
     }
-    boolean isShow_order_launcher_bottom_recyclerview=true;
+    public String list2json(List<OrderSubMenu> list) throws JSONException{
+        JSONArray jsonArray=new JSONArray();
+      for (OrderSubMenu subMenu :list){
+          JSONObject object=new JSONObject();
+          object.put("id",subMenu.getId());
+          object.put("choseNumb",subMenu.getChoseNumb());
+          object.put("createYear",subMenu.getCreateYear());
+          object.put("introduction",subMenu.getIntroduction());
+          object.put("isAble",subMenu.getIsAble());
+          object.put("name",subMenu.getName());
+          object.put("pinyingId",subMenu.getPinyingId());
+          object.put("price",subMenu.getPrice());
+          object.put("sale",subMenu.getSale());
+          object.put("superMenuId",subMenu.getSuperMenuId());
+          object.put("unit",subMenu.getUnit());
+          jsonArray.put(object);
+      }
+
+        return jsonArray.toString();
+    }
+
     //显示所选商品订单
     private void showOrderList(){
         //去掉重复选择
@@ -214,11 +259,33 @@ public class OrderMainActivity extends AppCompatActivity {
         witgetIdMap.put("minus_bn",R.id.order_main_bottom_rc_item_bn_minus);
         witgetIdMap.put("num_tv",R.id.order_main_bottom_rc_item_bn_num_tv);
         witgetIdMap.put("add_bn",R.id.order_main_bottom_rc_item_bn_add);
+        witgetIdMap.put("price_tv",R.id.order_main_bottom_rc_item_tv_price);
 
-        OrderReckoningRecyclerViewAdapter adapter=new OrderReckoningRecyclerViewAdapter(mContext,
+        orderReckoningRecyclerViewadapter=new OrderReckoningRecyclerViewAdapter(mContext,
                 reckoningList,R.layout.order_main_bottom_recyclerview_item,witgetIdMap);
-        order_launcher_bottom_recyclerview.setAdapter(adapter);
-        adapter.notifyDataSetChanged();
+        order_launcher_bottom_recyclerview.setAdapter(orderReckoningRecyclerViewadapter);
+        orderReckoningRecyclerViewadapter.notifyDataSetChanged();
+
+        orderReckoningRecyclerViewadapter.setmMinusItemClickListener(new OrderReckoningRecyclerViewAdapter.OnItemClickListener(){
+            @Override
+            public void onItemClick(View view, int position) {
+                int numb =reckoningList.get(position).getChoseNumb()-1;
+                if(numb>0) {
+                    reckoningList.get(position).setChoseNumb(numb);
+                }else{
+                    reckoningList.remove(position);
+                }
+                orderReckoningRecyclerViewadapter.notifyDataSetChanged();
+            }
+        } );
+        orderReckoningRecyclerViewadapter.setmAddItemClickListener(new OrderReckoningRecyclerViewAdapter.OnItemClickListener(){
+            @Override
+            public void onItemClick(View view, int position) {
+                int numb =reckoningList.get(position).getChoseNumb()+1;
+                reckoningList.get(position).setChoseNumb(numb);
+                orderReckoningRecyclerViewadapter.notifyDataSetChanged();
+            }
+        } );
 
     }
     public static List removeDuplicate(List list) {

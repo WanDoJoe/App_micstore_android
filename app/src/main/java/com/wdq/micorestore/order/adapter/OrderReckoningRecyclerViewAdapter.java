@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.wdq.micorestore.order.bean.OrderSubMenu;
@@ -16,6 +17,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
+ * 订单详情列表适配器
  * Created by wan on 18-11-13.
  */
 
@@ -58,8 +60,37 @@ public class OrderReckoningRecyclerViewAdapter extends RecyclerView.Adapter<Orde
 //                mItemClickListener.onItemClick(v, position);
 //            }
 //        });
+        holder.minus_bn.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                mMinusItemClickListener.onItemClick(v,position);
+//                int numb=mList.get(position).getChoseNumb()-1;
+//                if(numb>0) {
+//                    mList.get(position).setChoseNumb(numb);
+//                }else{
+//                    mList.remove(position);
+//                }
+
+            }
+        });
+
+        holder.add_bn.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                mAddItemClickListener.onItemClick(v,position);
+//                int numb=mList.get(position).getChoseNumb()-1;
+//                if(numb>0) {
+//                    mList.get(position).setChoseNumb(numb);
+//                }else{
+//                    mList.remove(position);
+//                }
+
+            }
+        });
+
         holder.name.setText(mList.get(position).getName());
         holder.num.setText(mList.get(position).getChoseNumb()+"");
+        holder.price.setText(Float.toString((mList.get(position).getPrice() * mList.get(position).getSale())));
 //        holder.price.setText(Float.toString(mList.get(position).getPrice()));
 //        holder.salePrice.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
 //        holder.salePrice.setText(Float.toString(mList.get(position).getPrice() * mList.get(position).getSale()));
@@ -74,8 +105,9 @@ public class OrderReckoningRecyclerViewAdapter extends RecyclerView.Adapter<Orde
     class MyViewHolder extends RecyclerView.ViewHolder {
         TextView name;
         TextView num;
+        TextView price;
         Button minus_bn,add_bn;
-        LinearLayout rootlayout_ll;
+        RelativeLayout rootlayout_ll;
 
         public MyViewHolder(View itemView) {
             super(itemView);
@@ -85,6 +117,7 @@ public class OrderReckoningRecyclerViewAdapter extends RecyclerView.Adapter<Orde
             minus_bn = itemView.findViewById(map.get("minus_bn"));
             add_bn = itemView.findViewById(map.get("add_bn"));
             rootlayout_ll = itemView.findViewById(map.get("rootlayout"));
+            price=itemView.findViewById(map.get("price_tv"));
 
         }
     }
@@ -99,22 +132,22 @@ public class OrderReckoningRecyclerViewAdapter extends RecyclerView.Adapter<Orde
         void onLongTouch(View view, int position);
     }
 
-    private OrderSubMenuAdapter.OnItemClickListener mItemClickListener;
-    private OrderSubMenuAdapter.OnItemLongTouchLinstener onItemLongTouchLinstener;
+    private OrderReckoningRecyclerViewAdapter.OnItemClickListener mMinusItemClickListener;
+    private OrderReckoningRecyclerViewAdapter.OnItemClickListener mAddItemClickListener;
 
-    public OrderSubMenuAdapter.OnItemLongTouchLinstener getOnItemLongTouchLinstener() {
-        return onItemLongTouchLinstener;
+    public OnItemClickListener getmMinusItemClickListener() {
+        return mMinusItemClickListener;
     }
 
-    public void setOnItemLongTouchLinstener(OrderSubMenuAdapter.OnItemLongTouchLinstener onItemLongTouchLinstener) {
-        this.onItemLongTouchLinstener = onItemLongTouchLinstener;
+    public void setmMinusItemClickListener(OnItemClickListener mMinusItemClickListener) {
+        this.mMinusItemClickListener = mMinusItemClickListener;
     }
 
-    public OrderSubMenuAdapter.OnItemClickListener getmItemClickListener() {
-        return mItemClickListener;
+    public OnItemClickListener getmAddItemClickListener() {
+        return mAddItemClickListener;
     }
 
-    public void setmItemClickListener(OrderSubMenuAdapter.OnItemClickListener mItemClickListener) {
-        this.mItemClickListener = mItemClickListener;
+    public void setmAddItemClickListener(OnItemClickListener mAddItemClickListener) {
+        this.mAddItemClickListener = mAddItemClickListener;
     }
 }
