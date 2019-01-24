@@ -36,6 +36,8 @@ import com.wdq.micorestore.order.dao.OrderSubMenuDaoUtils;
 import com.wdq.micorestore.order.dao.OrderSubTableBeanDaoUtils;
 import com.wdq.micorestore.order.dao.OrderSuperMenuDaoUtils;
 import com.wdq.micorestore.order.dao.OrderSuperTableBeanDaoUtils;
+import com.wdq.micorestore.utils.DateUtil;
+import com.wdq.micorestore.utils.FloatUtils;
 import com.wdq.micorestore.widget.PopupDialogMedia;
 
 import org.json.JSONArray;
@@ -83,7 +85,7 @@ public class OrderMainActivity extends AppCompatActivity {
     List<OrderSuperTableBean> orderSuperTableBean_List=new ArrayList<>();
 
 
-    OrderSubMenuAdapter orderSubMenuAdapter;
+
     OrderSuperMenuAdapter orderSuperMenuAdapter;
     private OrderSubMenuAdapter SubMenuAdapter;
 
@@ -106,6 +108,19 @@ public class OrderMainActivity extends AppCompatActivity {
 //        setDate();
 
         setView();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        try {
+            setDate();
+            orderSuperMenuAdapter.notifyDataSetChanged();
+            orderSuperMenuAdapter.notifyDataSetChanged();
+        }catch (Exception e){
+            Log.e("OrderMainActivity","OrderMainActivity=onResume="+e.getMessage());
+        }
+
     }
 
     private void initDate() {
@@ -147,7 +162,8 @@ public class OrderMainActivity extends AppCompatActivity {
         }
     }
 
-
+    String superTable="";
+    String subTable="";
     private void setView() {
         setDate();
         orderSuperMenuAdapter=new OrderSuperMenuAdapter(mContext,orderSuperMenu_List,R.layout.order_supermenu_listview_item);
@@ -169,6 +185,7 @@ public class OrderMainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
         OrderSuperTableAdapter superTableadapter=new OrderSuperTableAdapter(mContext,orderSuperTableBean_List);
         superTable_Spinner.setAdapter(superTableadapter);
         superTable_Spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -176,6 +193,7 @@ public class OrderMainActivity extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 superTable_Id=orderSuperTableBean_List.get(position).getId();
                 findOrderSubTable(orderSuperTableBean_List.get(position).getId());
+                superTable=orderSuperTableBean_List.get(position).getName();
             }
 
             @Override
@@ -186,7 +204,8 @@ public class OrderMainActivity extends AppCompatActivity {
         subTable_Spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(mContext, orderSubTableBean_List.get(position).getName(), Toast.LENGTH_SHORT).show();
+//                Toast.makeText(mContext, orderSubTableBean_List.get(position).getName(), Toast.LENGTH_SHORT).show();
+                subTable=orderSubTableBean_List.get(position).getName();
             }
 
             @Override
@@ -215,8 +234,13 @@ public class OrderMainActivity extends AppCompatActivity {
                 //下单结算
                 try {
                     if(reckoningList.size()>0) {
+                        JSONObject object=new JSONObject();
+                        object.put("list",list2json(reckoningList));
+                        object.put("table",superTable+"-"+subTable);
+                        object.put("date", DateUtil.geDate());
                         Intent intent = new Intent(mContext,OredrReckoningActivity.class);
-                        intent.putExtra("data", list2json(reckoningList));
+                        intent.putExtra("data",object.toString());
+//                        intent.putExtra("table", superTable+"-"+subTable);
                         startActivity(intent);
                     }else{
                         Toast.makeText(mContext,"订单不能为空",Toast.LENGTH_SHORT).show();
@@ -227,7 +251,7 @@ public class OrderMainActivity extends AppCompatActivity {
             }
         });
     }
-    public String list2json(List<OrderSubMenu> list) throws JSONException{
+    public JSONArray list2json(List<OrderSubMenu> list) throws JSONException{
         JSONArray jsonArray=new JSONArray();
       for (OrderSubMenu subMenu :list){
           JSONObject object=new JSONObject();
@@ -238,14 +262,14 @@ public class OrderMainActivity extends AppCompatActivity {
           object.put("isAble",subMenu.getIsAble());
           object.put("name",subMenu.getName());
           object.put("pinyingId",subMenu.getPinyingId());
-          object.put("price",subMenu.getPrice());
+          object.put("price",Float.toString(FloatUtils.to2(subMenu.getPrice()*subMenu.getSale())));
           object.put("sale",subMenu.getSale());
           object.put("superMenuId",subMenu.getSuperMenuId());
           object.put("unit",subMenu.getUnit());
           jsonArray.put(object);
       }
 
-        return jsonArray.toString();
+        return jsonArray;
     }
 
     //显示所选商品订单

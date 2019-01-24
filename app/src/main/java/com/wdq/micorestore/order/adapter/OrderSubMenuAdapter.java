@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.wdq.micorestore.R;
 import com.wdq.micorestore.order.bean.OrderSubMenu;
+import com.wdq.micorestore.utils.FloatUtils;
 import com.wdq.micorestore.utils.VibrateHelp;
 
 import java.util.List;
@@ -57,10 +58,15 @@ public class OrderSubMenuAdapter extends RecyclerView.Adapter<OrderSubMenuAdapte
                 mItemClickListener.onItemClick(v,position);
             }
         });
+
         holder.name.setText(mList.get(position).getName());
-        holder.price.setText(Float.toString(mList.get(position).getPrice()));
-        holder.salePrice.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
-        holder.salePrice.setText(Float.toString(mList.get(position).getPrice()*mList.get(position).getSale()));
+        if(mList.get(position).getSale()==10){
+            holder.price.setText(Float.toString(mList.get(position).getPrice()));
+        }else {
+            holder.salePrice.setText(Float.toString(mList.get(position).getPrice()));
+            holder.salePrice.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+            holder.price.setText(Float.toString(FloatUtils.to2(mList.get(position).getPrice() * mList.get(position).getSale())));
+        }
     }
 
 

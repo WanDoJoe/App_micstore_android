@@ -7,6 +7,18 @@
     <meta name="author" content="sinosoft">
     <!-- Date: 2018-05-22 -->
     <style type="text/css">
+    table {
+		text-align: center;
+		width: 100%;
+		padding: 20px;
+    }
+    table td{
+
+		border-style: solid;
+    	border-width: 1px;
+		border-color: #aaa;
+
+    }
    </style>
 	
 </head>
@@ -14,27 +26,35 @@
 	<div id="showpage"></div>
 </body>
 <script type="text/javascript">
-var json=[{"id":1,"choseNumb":2,"createYear":"2019年01月17日 11:52:59","introduction":"","isAble":"1","name":"底料","pinyingId":"","price":56,"sale":1,"superMenuId":1,"unit":"分份"},{"id":2,"choseNumb":1,"createYear":"2019年01月17日 11:53:16","introduction":"","isAble":"1","name":"啊","pinyingId":"","price":12,"sale":1,"superMenuId":1,"unit":""}]
-	function show(data) {
+var json={"list":[{"id":1,"choseNumb":2,"createYear":"2019年01月24日 15:53:44","introduction":"","isAble":"1","name":"汤","pinyingId":"","price":"48.0","sale":0.800000011920929,"superMenuId":1,"unit":""},{"id":3,"choseNumb":2,"createYear":"2019年01月24日 15:58:29","introduction":"","isAble":"1","name":"猪肉","pinyingId":"","price":"9.6","sale":0.800000011920929,"superMenuId":2,"unit":"盘"},{"id":2,"choseNumb":2,"createYear":"2019年01月24日 15:53:01","introduction":"","isAble":"1","name":"麻辣","pinyingId":"","price":"30.0","sale":1,"superMenuId":1,"unit":""}],"table":"大桌-大1","date":"2019年01月24日 16:49:49"}
+
+	function show(data,totle) {
 		var htmlStr="";
+		// var dataJson=data.list;
+		// var dataJson=JSON.parse(data);
+		// var dataJson_list=JSON.parse(data).list;
+
+		var dataJson=data;
+		var dataJson_list=data.list;
+		
+		htmlStr+="<div>桌位："+dataJson.table+"</div>";
+		htmlStr+="<div>日期："+dataJson.date+"</div>";
 		// body...
-		var dataJson=data;//JSON.parse(data);
-        alert(data)
+		
 		htmlStr+="<table>";
-		htmlStr+="<tr><td>名称</td> <td>数量</td> <td>价格</td> </tr>";
-		for (var i = 0; i < dataJson.length; i++) {
-			htmlStr+="<tr><td>"+dataJson[i].name+"</td>";
-			htmlStr+=" <td>"+dataJson[i].choseNumb+" "+dataJson[i].unit+"</td> ";
-			htmlStr+="<td>"+dataJson[i].price+"</td> </tr>";
+		htmlStr+="<tr><td>名称</td> <td>数量</td> <td>单价</td> </tr>";
+		for (var i = 0; i < dataJson_list.length; i++) {
+			htmlStr+="<tr><td>"+dataJson_list[i].name+"</td>";
+			htmlStr+=" <td>"+dataJson_list[i].choseNumb+" "+dataJson_list[i].unit+"</td> ";
+			htmlStr+="<td>"+dataJson_list[i].price+"</td> </tr>";
 		}
 
 		htmlStr+="</table>";
-
+		htmlStr+="<p>总价："+totle+"</p>"
 		document.getElementById("showpage").innerHTML=htmlStr;
 	}
-	// window.onload=function(){
-
-	// 	show(JSON.stringify(json));
-	// }
+	window.onload=function(){
+		// show(JSON.stringify(json),123,"dasdasd");
+	}
 </script>
 </html>
