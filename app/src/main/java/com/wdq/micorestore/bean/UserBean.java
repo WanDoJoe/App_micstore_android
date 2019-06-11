@@ -3,6 +3,7 @@ package com.wdq.micorestore.bean;
 import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.Generated;
+import org.greenrobot.greendao.annotation.NotNull;
 
 /**
  * Created by sinosoft_wan on 2018/10/9.
@@ -18,14 +19,26 @@ import org.greenrobot.greendao.annotation.Generated;
 public class UserBean {
     @Id(autoincrement = true)
     private long id;
+    @NotNull
     private String username;
+    @NotNull
     private String password;
+    private String date;
+    private String headerImg;
+    private String Role;
+    private String name;
 
-    @Generated(hash = 264317175)
-    public UserBean(long id, String username, String password) {
+
+    @Generated(hash = 551774791)
+    public UserBean(long id, @NotNull String username, @NotNull String password,
+            String date, String headerImg, String Role, String name) {
         this.id = id;
         this.username = username;
         this.password = password;
+        this.date = date;
+        this.headerImg = headerImg;
+        this.Role = Role;
+        this.name = name;
     }
 
     @Generated(hash = 1203313951)
@@ -54,5 +67,37 @@ public class UserBean {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getDate() {
+        return this.date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public String getHeaderImg() {
+        return this.headerImg;
+    }
+
+    public void setHeaderImg(String headerImg) {
+        this.headerImg = headerImg;
+    }
+
+    public String getRole() {
+        return this.Role;
+    }
+
+    public void setRole(String Role) {
+        this.Role = Role;
+    }
+
+    public String getName() {
+        return this.name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

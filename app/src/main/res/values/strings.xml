@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">micorestore</string>
     <string name="title_activity_sale">SaleActivity</string>
+    <string name="title_activity_grocery_main">GroceryMainActivity</string>
 
-
+    <string name="submit">提交</string>
+    <string name="add">添加</string>
 </resources>

@@ -13,8 +13,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.uuzuche.lib_zxing.activity.CaptureActivity;
-import com.uuzuche.lib_zxing.activity.CodeUtils;
+
 import com.wdq.micorestore.utils.CheckPermissionUtils;
 
 import java.util.List;

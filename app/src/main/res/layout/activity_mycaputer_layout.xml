@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    <FrameLayout
+        android:id="@+id/mycaputer_main_fl_my_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="visible"
+        android:layout_gravity="top"
+        >
+        <com.journeyapps.barcodescanner.DecoratedBarcodeView
+            android:id="@+id/mycaputer_bv_barcode"
+            app:zxing_use_texture_view="false"
+            app:zxing_preview_scaling_strategy="centerCrop"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/add_bn"/>
+    </FrameLayout>
+</LinearLayout>

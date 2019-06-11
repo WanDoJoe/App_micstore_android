@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+ <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>生成二维码</title>
+
+<style type="text/css">
+	#showqrcode {
+	  width:260px;
+	  height:260px;
+	  margin-top:15px;
+	} 
+</style>
+
+	<script type="text/javascript" src="jquery.min.js"></script>
+	<script type="text/javascript"src="qrcode.min.js"></script>
+</head>
+
+<body>
+	<!--<input type="text" id="inputcontent"></input>-->
+	<!--<input type="button" id="submit" value="确定" onclick="onSubmit()"></input>-->
+	<div id="showqrcode"></div>
+
+	<!-- <img id='imgs' src="" style='border:1px solid red;'/>   -->
+		<!--<a id="donwload" value="保存">保存</a>-->
+</body>
+<script type="text/javascript">
+	var qrcode = new QRCode("showqrcode");
+	function show (elText) { //调用此方法即可
+	    //生成二维码
+	    qrcode.makeCode(elText);
+	}
+
+	<!--function onSubmit(){-->
+		<!--//输入内容-->
+	    <!--var elText = document.getElementById("inputcontent");-->
+	    <!---->
+	    <!--if (!elText.value) {-->
+	        <!--alert("请输入有效内容！");-->
+	        <!--elText.focus();-->
+	        <!--return;-->
+	    <!--}-->
+	    <!---->
+    	<!--makeCode(elText.value);-->
+    	<!--getImg();-->
+    <!--}-->
+
+
+</script>
+
+<script type="text/javascript">
+ 		function getImg(){
+ 			//如果取某个指定的div下的img
+			var imgurl = document.getElementById("showqrcode").getElementsByTagName("img")[0];
+			var urlssss=$("#showqrcode img")[0].src//attr("src");
+			sada9(urlssss);
+			// 构建画布
+		    var canvas = document.createElement('canvas');
+		    canvas.width = imgurl.width;
+		    canvas.height = imgurl.height;
+		    canvas.getContext('2d').drawImage(imgurl, 0, 0);
+		    // 构造url
+		    console.log(canvas.toDataURL('image/png'));
+		   	var url = canvas.toDataURL();
+			// 构造a标签并模拟点击
+		    // var donwload = document.getElementById('donwload');
+		    // donwload.setAttribute('href', url);
+		    // donwload.setAttribute('download', '二维码.png');
+		    // donwload.click();
+ 		}
+ 		<!--window.onload=function(){-->
+		 <!--show("dasdasd");-->
+	<!--}-->
+</script>
+</html>

@@ -15,10 +15,13 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.wdq.micorestore.bean.UserBean;
 import com.wdq.micorestore.common.Common;
+import com.wdq.micorestore.grocery.GroceryMainActivity;
 import com.wdq.micorestore.httpapi.HttpApi;
 import com.wdq.micorestore.httpapi.MyDefaultObserver;
 import com.wdq.micorestore.order.OrderMainActivity;
+import com.wdq.micorestore.order.bean.OrderUserBean;
 import com.wdq.micorestore.utils.AesEncodeUtil;
 import com.wdq.micorestore.utils.CheckPermissionUtils;
 import com.wdq.micorestore.utils.MD5Utils;
@@ -42,6 +45,7 @@ public class LoginActivity extends Activity implements EasyPermissions.Permissio
 
     private Button login_bn;
     private EditText username_ET,password_ET;
+    public MyApplication app=MyApplication.sharedApp();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -67,18 +71,37 @@ public class LoginActivity extends Activity implements EasyPermissions.Permissio
                     Toast.makeText(LoginActivity.this,"密码不能为空",Toast.LENGTH_SHORT).show();
                 }
 
-                String password= MD5Utils.md5Password(password_ET.getText().toString());
+//
 //                Log.e("aaaaaaaaaaaaaaaaaaaaaa",password);
 
                 if(Common.isNotNetWork){
-                    if(username_ET.getText().toString().equals("admin")&&password_ET.getText().toString().equals("admin")) {
-//                        Intent intent = new Intent(LoginActivity.this, Launcher.class);
-                        Intent intent = new Intent(LoginActivity.this, OrderMainActivity.class);
-
+                    String username=username_ET.getText().toString();
+                    String password=password_ET.getText().toString();
+                    String[] str={username,password};
+                    List<OrderUserBean> list=app.orderUserBeanDaoUtils.queryByNativeSql("where username=? and password=?",str);
+                    if(list.size()>0){
+                        app.setMyUserBean(list.get(0));
+                        Intent intent = new Intent(LoginActivity.this, GroceryMainActivity.class);
                         startActivity(intent);
                         finish();
+                    }else{
+                        Toast.makeText(LoginActivity.this,"登陆失败",Toast.LENGTH_SHORT).show();
                     }
+                    //                    if(username_ET.getText().toString().equals("admin")&&password_ET.getText().toString().equals("admin")) {
+////                        Intent intent = new Intent(LoginActivity.this, Launcher.class);
+////                        Intent intent = new Intent(LoginActivity.this, OrderMainActivity.class);
+////                        UserBean userBean=new UserBean();
+////                        userBean.setId(1);
+////                        userBean.setUsername("admin");
+////                        userBean.setPassword("admin");
+////                        app.setUserBean(userBean);
+//
+//                        Intent intent = new Intent(LoginActivity.this, GroceryMainActivity.class);
+//                        startActivity(intent);
+//                        finish();
+//                    }
                 }else{
+                    String password= MD5Utils.md5Password(password_ET.getText().toString());
                     HttpApi.loginRESTfulk("login", username_ET.getText().toString(),password ,
                             setInfo(), new MyDefaultObserver<String>(LoginActivity.this) {
                                 @Override

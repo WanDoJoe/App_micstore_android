@@ -12,8 +12,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.uuzuche.lib_zxing.activity.CaptureActivity;
-import com.uuzuche.lib_zxing.activity.CodeUtils;
+
+//import com.google.zxing.client.android.CaptureActivity;
 import com.wdq.micorestore.adapter.LauncherAdapter;
 import com.wdq.micorestore.bean.LauncherItemBean;
 import com.wdq.micorestore.common.Common;
@@ -32,7 +32,7 @@ import java.util.Map;
  * Created by sinosoft_wan on 2018/9/21.
  */
 
-public class Launcher extends BaseActivity {
+public class Launcher extends Activity {
     List<LauncherItemBean> mlist;
 
     RecyclerView recyclerView;
@@ -88,8 +88,8 @@ public class Launcher extends BaseActivity {
         search_img.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(Launcher.this, CaptureActivity.class);
-                startActivityForResult(intent,Common.REQUEST_CODE);
+//                Intent intent=new Intent(Launcher.this, CaptureActivity.class);
+//                startActivityForResult(intent,Common.REQUEST_CODE);
             }
         });
     }
@@ -104,12 +104,12 @@ public class Launcher extends BaseActivity {
                 if (bundle == null) {
                     return;
                 }
-                if (bundle.getInt(CodeUtils.RESULT_TYPE) == CodeUtils.RESULT_SUCCESS) {
-                    String result = bundle.getString(CodeUtils.RESULT_STRING);
-                    Toast.makeText(this, "二维码解析结果:" + result, Toast.LENGTH_LONG).show();
-                } else if (bundle.getInt(CodeUtils.RESULT_TYPE) == CodeUtils.RESULT_FAILED) {
-                    Toast.makeText(Launcher.this, "解析二维码失败", Toast.LENGTH_LONG).show();
-                }
+//                if (bundle.getInt(CodeUtils.RESULT_TYPE) == CodeUtils.RESULT_SUCCESS) {
+//                    String result = bundle.getString(CodeUtils.RESULT_STRING);
+//                    Toast.makeText(this, "二维码解析结果:" + result, Toast.LENGTH_LONG).show();
+//                } else if (bundle.getInt(CodeUtils.RESULT_TYPE) == CodeUtils.RESULT_FAILED) {
+//                    Toast.makeText(Launcher.this, "解析二维码失败", Toast.LENGTH_LONG).show();
+//                }
             }
         }
     }

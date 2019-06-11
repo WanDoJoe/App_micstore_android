@@ -1,0 +1,15 @@
+<resources>
+    <string name="grocery_cqcode">二维码号</string>
+    <string name="grocery_code">商品代码</string>
+    <string name="grocery_goods_name">商品名</string>
+    <string name="grocery_goods_brand">商品品牌</string>
+    <string name="grocery_goods_type">商品类型</string>
+    <string name="grocery_goods_type_histoy">类型</string>
+    <string name="grocery_goods_size">规格</string>
+    <string name="grocery_goods_date">生产日期</string>
+    <string name="grocery_in_date">入库日期</string>
+    <string name="grocery_in_numb">入库数量</string>
+    <string name="grocery_up_sale">上架</string>
+    <string name="grocery_down_sale">下架</string>
+    <string name="grocery_remark">备注</string>
+</resources>

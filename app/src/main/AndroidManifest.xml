@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.wdq.micorestore">
 
     <uses-permission android:name="android.permission.CAMERA" />
@@ -47,7 +48,26 @@
         <activity android:name=".order.OredrReckoningActivity" />
         <activity android:name=".order.OrderSettingActivity" />
         <activity android:name=".order.manage.OrderMenuManageActivity" />
-        <activity android:name=".order.manage.OrderTableManageActivity"></activity>
+        <activity android:name=".order.manage.OrderTableManageActivity" />
+        <activity xmlns:tools="http://schemas.android.com/tools"
+            android:name=".grocery.GroceryMainActivity"
+            android:label="@string/title_activity_grocery_main"
+            android:screenOrientation="fullSensor"
+            android:theme="@style/AppTheme.NoActionBar"
+            tools:replace="screenOrientation" />
+        <activity xmlns:tools="http://schemas.android.com/tools"
+            android:name=".grocery.GrocerySettingActivity"
+            android:screenOrientation="fullSensor"
+            tools:replace="screenOrientation" />
+        <activity android:name=".grocery.setting.usermanage.GrocerySettingUserActivity" />
+        <activity
+            android:name=".grocery.setting.inwarehouse.GrocerySettingInWarehouseActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity xmlns:tools="http://schemas.android.com/tools"
+            android:name=".zxing.client.MyCaptureActivity"
+            android:screenOrientation="fullSensor"
+            tools:replace="screenOrientation" />
+        <activity android:name=".grocery.setting.goodsmanage.GrocerySettingGoodsActivity"></activity>
     </application>
 
 </manifest>

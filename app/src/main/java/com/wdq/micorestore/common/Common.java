@@ -20,7 +20,11 @@ public class Common {
      */
     public static final int REQUEST_IMAGE = 112;
 
+
     public static boolean isNotNetWork=true;
 
-
+    public static final String RESULT_TYPE = "RESULT_TYPE";
+    public static final int RESULT_SUCCESS = 1;
+    public static final int RESULT_FAILED = 2;
+    public static String RESULT_STRING="RESULT_STRING";
 }

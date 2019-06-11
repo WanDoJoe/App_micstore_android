@@ -23,18 +23,20 @@ public class OrderUserBean {
     private String date;
     private String headerImg;
     private String Role;
-//    private String
+    private String name;
 
 
-    @Generated(hash = 936994808)
+    @Generated(hash = 740733164)
     public OrderUserBean(Long id, @NotNull String username,
-            @NotNull String password, String date, String headerImg, String Role) {
+            @NotNull String password, String date, String headerImg, String Role,
+            String name) {
         this.id = id;
         this.username = username;
         this.password = password;
         this.date = date;
         this.headerImg = headerImg;
         this.Role = Role;
+        this.name = name;
     }
 
     @Generated(hash = 1839367459)
@@ -88,5 +90,13 @@ public class OrderUserBean {
 
     public void setRole(String role) {
         Role = role;
+    }
+
+    public String getName() {
+        return this.name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }
