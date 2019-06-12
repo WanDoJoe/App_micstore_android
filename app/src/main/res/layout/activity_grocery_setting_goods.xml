@@ -5,21 +5,69 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.wdq.micorestore.grocery.setting.goodsmanage.GrocerySettingGoodsActivity">
-    <FrameLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <RelativeLayout
+            android:id="@+id/grocery_setting_goods_header_view_rl"
+            android:layout_marginTop="4dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <RelativeLayout
+                android:id="@+id/grocery_setting_goods_header_logo_top"
+                android:layout_width="match_parent"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_height="36dp">
+                <TextView
+                    android:id="@+id/order_header_logo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="18sp"
+                    android:layout_centerVertical="true"
+                    android:text="Micote Store"/>
+                <ImageButton
+                    android:id="@+id/grocery_setting_goods_header_setting_bn"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:background="@drawable/setting_bn"/>
+            </RelativeLayout>
+        </RelativeLayout>
         <!--<TextView-->
             <!--android:layout_width="wrap_content"-->
             <!--android:layout_height="wrap_content"-->
             <!--android:layout_gravity="center"-->
             <!--android:text="没有数据"/>-->
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/activity_grocery_setting_goods_recyclerview"
+        <LinearLayout
             android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="8dp"
             android:background="#ffffff"
-            android:layout_height="match_parent">
+            android:orientation="horizontal">
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/activity_grocery_setting_goods_recyclerview_left"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_marginRight="1px"
 
-        </android.support.v7.widget.RecyclerView>
+                android:background="#ffffff"
+                android:layout_height="match_parent">
 
-    </FrameLayout>
+            </android.support.v7.widget.RecyclerView>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/activity_grocery_setting_goods_recyclerview_right"
+                android:layout_width="0dp"
+                android:layout_weight="3"
+                android:background="#ffffff"
+                android:layout_height="match_parent">
+
+            </android.support.v7.widget.RecyclerView>
+        </LinearLayout>
+
+
+    </LinearLayout>
 </android.support.constraint.ConstraintLayout>

@@ -19,6 +19,7 @@ public class Common {
      * 选择系统图片Request Code
      */
     public static final int REQUEST_IMAGE = 112;
+    public static final int REQUEST_GOODS_CODE = 113;
 
 
     public static boolean isNotNetWork=true;

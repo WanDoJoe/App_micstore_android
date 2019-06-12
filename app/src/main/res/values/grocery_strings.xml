@@ -4,6 +4,8 @@
     <string name="grocery_goods_name">商品名</string>
     <string name="grocery_goods_brand">商品品牌</string>
     <string name="grocery_goods_type">商品类型</string>
+    <string name="grocery_goods_costprice">成本价</string>
+    <string name="grocery_goods_price">售价</string>
     <string name="grocery_goods_type_histoy">类型</string>
     <string name="grocery_goods_size">规格</string>
     <string name="grocery_goods_date">生产日期</string>

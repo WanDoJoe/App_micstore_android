@@ -67,7 +67,11 @@
             android:name=".zxing.client.MyCaptureActivity"
             android:screenOrientation="fullSensor"
             tools:replace="screenOrientation" />
-        <activity android:name=".grocery.setting.goodsmanage.GrocerySettingGoodsActivity"></activity>
+        <activity android:name=".grocery.setting.goodsmanage.GrocerySettingGoodsActivity"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
+            android:name=".grocery.setting.goodsmanage.GrocerySettingGoodsInfoActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
 </manifest>

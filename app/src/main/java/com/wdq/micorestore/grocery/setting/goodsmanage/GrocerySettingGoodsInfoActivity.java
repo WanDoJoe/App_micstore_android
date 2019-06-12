@@ -1,4 +1,4 @@
-package com.wdq.micorestore.grocery.setting.inwarehouse;
+package com.wdq.micorestore.grocery.setting.goodsmanage;
 
 import android.content.Context;
 import android.content.Intent;
@@ -26,14 +26,15 @@ import com.wdq.micorestore.zxing.client.MyCaptureActivity;
 
 import java.util.List;
 
-public class GrocerySettingInWarehouseActivity extends BaseActivity {
+public class GrocerySettingGoodsInfoActivity extends BaseActivity {
+    private static String TAG=GrocerySettingGoodsInfoActivity.class.getSimpleName();
     private Context mContext;
-    EditText cqcode_ed,inwarehouse_ed_in_date,grocery_goods_name_ed,
+    EditText cqcode_ed,grocery_goods_name_ed,
             grocery_goods_code_ed,grocery_goods_brand_ed,grocery_goods_costprice,grocery_goods_price,
             grocery_goods_type_ed,grocery_goods_size_ed,grocery_goods_date_ed,grocery_in_date_ed,grocery_in_numb_ed,
             grocery_remark_ed;//  activity_grocery_setting_inwarehouse_ed_in_date
     ImageButton cqCode_IBn;
-    Button goodsType_history_bn,goodsSize_history_bn,goodsDate_bn,goods_brand_bn;
+    Button goodsType_history_bn,goodsSize_history_bn,goodsDate_bn;
     Button submit_bn;
 
     GroceryGoodsDaoUtils groceryGoodsDaoUtils;
@@ -43,10 +44,15 @@ public class GrocerySettingInWarehouseActivity extends BaseActivity {
 
     private boolean isCqcode_ed=false;
     private GroceryGoods mGroceryGoods;
+
+    private String resultIntent="";
     @Override
     protected void setContentLayout() {
         mContext=this;
         setContentView(R.layout.activity_grocery_setting_inwarehouse_layout);
+
+
+
     }
 
     @Override
@@ -55,7 +61,7 @@ public class GrocerySettingInWarehouseActivity extends BaseActivity {
         cqCode_IBn=findViewById(R.id.activity_grocery_setting_inwarehouse_bn_cqcode);
 
         cqcode_ed =findViewById(R.id.activity_grocery_setting_inwarehouse_ed_cqcode);
-        inwarehouse_ed_in_date=findViewById(R.id.activity_grocery_setting_inwarehouse_ed_in_date);
+//        inwarehouse_ed_in_date=findViewById(R.id.activity_grocery_setting_inwarehouse_ed_in_date);
         grocery_goods_code_ed=findViewById(R.id.activity_grocery_setting_inwarehouse_ed_code);
         grocery_goods_name_ed =findViewById(R.id.activity_grocery_setting_inwarehouse_ed_goods_name);
         grocery_goods_brand_ed =findViewById(R.id.activity_grocery_setting_inwarehouse_ed_goods_brand);
@@ -70,8 +76,7 @@ public class GrocerySettingInWarehouseActivity extends BaseActivity {
 
         goodsType_history_bn=findViewById(R.id.activity_grocery_setting_inwarehouse_bn_goods_type);
         goodsSize_history_bn=findViewById(R.id.activity_grocery_setting_inwarehouse_bn_goods_size);
-        goodsDate_bn=findViewById(R.id.activity_grocery_setting_inwarehouse_bn_goods_date);
-        goods_brand_bn=findViewById(R.id.activity_grocery_setting_inwarehouse_bn_goods_brand);
+        goodsDate_bn=findViewById(R.id.activity_grocery_setting_inwarehouse_bn_goods_date);;
 
         submit_bn=findViewById(R.id.activity_grocery_setting_inwarehouse_bn_submit);
 
@@ -79,16 +84,38 @@ public class GrocerySettingInWarehouseActivity extends BaseActivity {
         historyTypeBeanDaoUtils=new GroceryGoodsHistoryTypeBeanDaoUtils(mContext);
         historySizeBeanDaoUtils=new GroceryGoodsHistorySizeBeanDaoUtils(mContext);
         brandBeanDAOUtils=new GroceryGoodsBrandBeanDAOUtils(mContext);
+
+        grocery_in_date_ed.setFocusable(false);
+//        grocery_in_numb_ed.setFocusable(false);
+
+
+        cqCode_IBn.setVisibility(View.INVISIBLE);
+        goodsType_history_bn.setVisibility(View.INVISIBLE);
+        goodsSize_history_bn.setVisibility(View.INVISIBLE);
+        goodsDate_bn.setVisibility(View.INVISIBLE);
     }
 
     @Override
     protected void initDate() {
-
+        resultIntent=getIntent().getStringExtra("cqCode");
+        if(!resultIntent.isEmpty()) {
+            Log.e(TAG,resultIntent);
+            String[] str = {resultIntent};
+            List<GroceryGoods> queryCqCodeGoodsList =
+                    groceryGoodsDaoUtils.queryMeiziByNativeSql("where grocery_cqcode=?", str);
+            if (!queryCqCodeGoodsList.isEmpty()) {
+                isCqcode_ed = false;
+                setGoodsValue_Ed(queryCqCodeGoodsList.get(0));
+                mGroceryGoods = queryCqCodeGoodsList.get(0);
+            }else{
+                Toast.makeText(mContext,"程序异常：无该详细信息",Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 
     @Override
     protected void setView() {
-        inwarehouse_ed_in_date.setText(DateUtil.geDate());
+        grocery_in_date_ed.setText(DateUtil.geDate());
     }
 
     @Override
@@ -99,17 +126,6 @@ public class GrocerySettingInWarehouseActivity extends BaseActivity {
 
                 Intent intent=new Intent(mContext,MyCaptureActivity.class);
                 startActivityForResult(intent,Common.REQUEST_CODE);
-            }
-        });
-        goods_brand_bn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                List<GroceryGoodsBrandBean> mList = brandBeanDAOUtils.queryAllMeizi();
-                if(mList.size()>0){
-
-                }else{
-                    Toast.makeText(mContext,"没有历史纪录",Toast.LENGTH_SHORT).show();
-                }
             }
         });
 
@@ -209,9 +225,9 @@ public class GrocerySettingInWarehouseActivity extends BaseActivity {
                         groceryGoods.setPrice(grocery_goods_price.getText().toString());
                         groceryGoods.setGrocery_remark(grocery_remark_ed.getText().toString());//">备注</string>
                     if(isCqcode_ed) {
-                        if (groceryGoodsDaoUtils.insertGoods(groceryGoods)) {
-                            resetGoodsValue_Ed();
-                        }
+//                        if (groceryGoodsDaoUtils.insertGoods(groceryGoods)) {
+//                            resetGoodsValue_Ed();
+//                        }
                     }else{
                         mGroceryGoods.setGrocery_cqcode(cqcode_ed.getText().toString());
 
@@ -233,10 +249,12 @@ public class GrocerySettingInWarehouseActivity extends BaseActivity {
                         if (groceryGoodsDaoUtils.updateMeizi(mGroceryGoods)) {
                             Log.e("GrocerySeInWarehouse","GrocerySettingInWarehouseActivity--if");
                             resetGoodsValue_Ed();
+                            GrocerySettingGoodsInfoActivity.this.finish();
                         }else{
                             Log.e("GrocerySeInWarehouse","GrocerySettingInWarehouseActivity--else");
                         }
                     }
+
 
                 }
             }
@@ -246,7 +264,10 @@ public class GrocerySettingInWarehouseActivity extends BaseActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode==Common.REQUEST_CODE){
+//        if(requestCode==Common.REQUEST_GOODS_CODE){
+//
+//        }else
+            if(requestCode==Common.REQUEST_CODE){
             Log.e(getClass().getName(), "获取到的扫描结果是：" + resultCode);
             //处理扫描结果（在界面上显示）
             if (null != data) {
@@ -283,7 +304,6 @@ public class GrocerySettingInWarehouseActivity extends BaseActivity {
     private void setGoodsValue_Ed(GroceryGoods goodsBean){
 
         cqcode_ed .setText(goodsBean.getGrocery_cqcode());
-        inwarehouse_ed_in_date.setText(goodsBean.getGrocery_in_date());
         grocery_goods_code_ed.setText(goodsBean.getGrocery_code());
         grocery_goods_name_ed .setText(goodsBean.getGrocery_goods_name());
         grocery_goods_brand_ed.setText(goodsBean.getGrocery_goods_brand());
@@ -300,7 +320,6 @@ public class GrocerySettingInWarehouseActivity extends BaseActivity {
     private void resetGoodsValue_Ed(){
 
         cqcode_ed .setText("");
-        inwarehouse_ed_in_date.setText("");
         grocery_goods_code_ed.setText("");
         grocery_goods_name_ed.setText("");
         grocery_goods_brand_ed.setText("");
@@ -312,5 +331,6 @@ public class GrocerySettingInWarehouseActivity extends BaseActivity {
         grocery_remark_ed.setText("");
         grocery_goods_costprice .setText("");
         grocery_goods_price.setText("");
+
     }
 }
