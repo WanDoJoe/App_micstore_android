@@ -30,10 +30,11 @@ public class GroceryReckoning {
     String grocery_down_sale;//">下架</string>
     String grocery_remark;//">备注</string>
 
-    String reckoning_date;
-    String reckoning_numb;
-    String reckoning_prices;
-    @Generated(hash = 1363464691)
+    String reckoning_date; //订单日期
+    String reckoning_numb; //订单商品数量
+    String reckoning_prices; //订单价格
+    String reckoning_totle_prices; //订单总价
+    @Generated(hash = 1365255605)
     public GroceryReckoning(Long id, @NotNull String grocery_cqcode,
             String grocery_code, @NotNull String grocery_goods_name,
             String grocery_goods_brand, String grocery_goods_type,
@@ -41,7 +42,8 @@ public class GroceryReckoning {
             String grocery_in_date, @NotNull String grocery_in_numb,
             String cost_price, String price, String grocery_up_sale,
             String grocery_down_sale, String grocery_remark, String reckoning_date,
-            String reckoning_numb, String reckoning_prices) {
+            String reckoning_numb, String reckoning_prices,
+            String reckoning_totle_prices) {
         this.id = id;
         this.grocery_cqcode = grocery_cqcode;
         this.grocery_code = grocery_code;
@@ -60,6 +62,7 @@ public class GroceryReckoning {
         this.reckoning_date = reckoning_date;
         this.reckoning_numb = reckoning_numb;
         this.reckoning_prices = reckoning_prices;
+        this.reckoning_totle_prices = reckoning_totle_prices;
     }
     @Generated(hash = 393039023)
     public GroceryReckoning() {
@@ -171,5 +174,11 @@ public class GroceryReckoning {
     }
     public void setReckoning_prices(String reckoning_prices) {
         this.reckoning_prices = reckoning_prices;
+    }
+    public String getReckoning_totle_prices() {
+        return this.reckoning_totle_prices;
+    }
+    public void setReckoning_totle_prices(String reckoning_totle_prices) {
+        this.reckoning_totle_prices = reckoning_totle_prices;
     }
 }
