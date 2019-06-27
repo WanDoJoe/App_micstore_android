@@ -20,6 +20,7 @@ import android.widget.Toast;
 
 //import com.google.zxing.client.android.CaptureActivity;
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.google.zxing.ResultPoint;
 import com.google.zxing.client.android.BeepManager;
 import com.journeyapps.barcodescanner.BarcodeCallback;
@@ -31,6 +32,7 @@ import com.wdq.micorestore.grocery.adapter.GroceryMainOrderAdapter;
 import com.wdq.micorestore.grocery.bean.GroceryGoods;
 import com.wdq.micorestore.grocery.bean.GroceryReckoning;
 import com.wdq.micorestore.grocery.dao.GroceryGoodsDaoUtils;
+import com.wdq.micorestore.utils.Base64Utils;
 import com.wdq.micorestore.utils.DateUtil;
 import com.wdq.micorestore.utils.PayUtils;
 
@@ -318,7 +320,8 @@ public class GroceryMainActivity extends AppCompatActivity {
                 .setPositiveButton("支付成功", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-
+                        String json=JSON.toJSONString(mGroceryReckoningList);
+                        Log.e(TAG, Base64Utils.encodeToString(json));
                         payDialog.dismiss();
                     }
                 })
